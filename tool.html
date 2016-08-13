@@ -1,0 +1,937 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>YAZ</title>
+<!--script type="text/javascript" src="js/jquery-1.7.2.min.js"></script>
+<script type="text/javascript" src="js/common.js"></script><style type="text/css"></style-->
+<script src="bin/tooltip.js"></script>
+<script src="bin/jquery-3.1.0.min.js"></script>
+<script src="bin/jscolor.js"></script> <!-- Color Picker -->
+<link href="bin/yaz.css" rel="stylesheet" type="text/css">
+<link rel="icon" href="figures/yaz_lable.png" type="image/x-icon">
+<meta http-equiv="Content-Language" content="en">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=640">
+<meta name=viewport content="width=device-width, initial-scale=1">
+<meta http-equiv="cache-control" content="max-age=0" />
+<meta http-equiv="cache-control" content="no-cache" />
+<meta http-equiv="expires" content="0" />
+<meta http-equiv="expires" content="Tue, 01 Jan 1980 1:00:00 GMT" />
+<meta http-equiv="pragma" content="no-cache" />
+<style>
+a {
+  text-decoration: none;
+}
+</style>
+
+
+<script>	
+	function getParameterByName(name, url) {
+		if (!url) url = window.location.href;
+		name = name.replace(/[\[\]]/g, "\\$&");
+		var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+		results = regex.exec(url);
+		if (!results) return null;
+		if (!results[2]) return '';
+		return decodeURIComponent(results[2].replace(/\+/g, " "));
+	}
+
+	function checkbin(){
+	return function(){
+		if ( parseInt($(this).val()) < 5 || parseInt($(this).val()) > 100 || $(this).val() == ""){
+				$(this).css("background-color", "#FFCCCC");
+			}
+			else{ 
+				$(this).css("background-color", "#FFFFFF");
+			};
+			newval = $(this).val().replace(/[^0-9]/g, "");
+    			$(this).val(newval);
+    		};
+	};
+	
+	var dataset = getParameterByName('dataset');
+	var session = getParameterByName('session');
+	var ProteinIdList;
+	$.get("datasets/".concat(dataset).concat("/ProteinIDlist.txt"), function(data) {
+		ProteinIdList = data;
+	});
+	
+	$(document).ready(function(){	
+		var colora, colorb, colorc;
+		var dataset_conf;
+		var is_adult = true, is_embr = true;
+		var IDtype;
+		var conf_file = "datasets/".concat(dataset).concat("/data.conf");
+		$.get(conf_file, function(response) {
+			dataset_conf = response.split('\n');
+			if (dataset_conf[1] == "ZF"){
+				$("#species").html("Zebrafish <i>(Danio rerio)</i>");
+			} else if (dataset_conf[1] == "carp"){
+				$("#species").html("Carp <i>(Cyprinus carpio)</i>");
+			}
+			if (dataset_conf[4] == "male"){
+				$("#gender").html("Male");
+			} else if (dataset_conf[4] == "female"){
+				$("#gender").html("Female");
+			} else if (dataset_conf[4] == "both"){
+				$("#gender").html("Female & Male");
+			} else if (dataset_conf[4] == "none"){
+				$("#gender").html("data has no information about genders");
+			}
+			$("#data-name").html(dataset_conf[0]);
+			IDtype = dataset_conf[2];
+			$("#id-type").html(IDtype);
+			
+			if (dataset_conf[7] == "zfa"){
+				$("#embr").html("Adult");
+				$(".embr-option").hide();
+				$("#ext-embr, #ext-embr-list, #ext-embr-comp").prop("checked", false);
+			} else if (dataset_conf[7] == "zfs"){
+				$("#ext-embr, #ext-embr-list, #ext-embr-comp").prop("disabled", true);
+				$("#embr").html("Developmental stages");
+				is_adult = false;
+				$(".brain-option").hide();
+			} else if (dataset_conf[7] == "both"){
+				$("#embr").html("Adult & Embryo");
+			}
+			$("#id-list").attr("href", "datasets/".concat(dataset).concat("/ProteinIDlist.txt"));
+			$("#preproc").attr("href", "datasets/".concat(dataset).concat("/result_pr.txt"));
+		});
+		
+		
+		function getInfo(ID, dom) {
+			var string, uniURL;
+			var comp1=false, comp2=false, comp3=false;
+			var fromID, zfinID, uniprotID, entrezID;
+			var name= "";
+			if (IDtype=="UniProt ID"){
+				uniprotID = ID;
+			} else if (IDtype=="ZFIN ID") {
+				zfinID = ID;
+				comp2 = true;
+				fromID = 'ZFIN_ID';
+			} else if (IDtype=="ENTREZ GENE") {
+				entrezID = ID;
+				comp3 = true;
+				fromID = 'P_ENTREZGENEID';
+			}
+			if (!(uniprotID)){
+				$.ajax({
+					url: "http://www.uniprot.org/mapping/",
+					async: false,
+					data:
+					{
+						from: fromID,
+						to: 'ACC',
+						format: 'tab',
+						query: ID
+					},
+					success: function(data){
+						uniprotID = data.split('\n')[1].split('\t')[1];
+					}
+				});
+			}
+			if (uniprotID) {
+				$.ajax({
+					url: "http://www.uniprot.org/uniprot/"+uniprotID+".xml",
+					success: function(data){
+						var buff = data.getElementsByTagName("fullName");
+						for (var i=0; i<buff.length; i++){
+							var temp = buff[i].firstChild.nodeValue;
+							if ((temp != "Uncharacterized protein")||(buff.length < 2)){
+								name += temp+"<br>";
+							}
+						};
+					},
+					complete: function(){
+						comp1 = true;
+						comp1 && comp2 && comp3 && writeInfo();
+					}
+				});
+				
+				if (!(zfinID)) {
+					$.ajax({
+						url: "http://www.uniprot.org/mapping/", 
+						data:
+						{
+							from: 'ACC+ID',
+							to: 'ZFIN_ID',
+							format: 'tab',
+							query: uniprotID
+						},
+						success: function(data){
+							zfinID = data.split('\n')[1].split('\t')[1];
+						},
+						complete: function(){
+							comp2 = true;
+							comp1 && comp2 && comp3 && writeInfo();
+						}
+					});
+				}
+				if (!(entrezID)) {
+					$.ajax({
+						url: "http://www.uniprot.org/mapping/", 
+						data:
+						{
+							from: 'ACC+ID',
+							to: 'P_ENTREZGENEID',
+							format: 'tab',
+							query: uniprotID
+						},
+						success: function(data){
+							entrezID = data.split('\n')[1].split('\t')[1];
+						},
+						complete: function(){
+							comp3 = true;
+							comp1 && comp2 && comp3 && writeInfo();
+						}
+					});
+				}
+				
+			} else {
+				$(dom).append(ID+": No info or no Internet connection<br>");
+			}
+			
+			function writeInfo(){
+				string = "<div class='link-div'><div class='link-id'>"+ID+"</div><div class='link-names'>"+name+"</div>";
+				if (uniprotID)
+					string += "<a target='_blank' href='http://www.uniprot.org/uniprot/"+uniprotID+"'><img class='link-img' src='figures/uniprot_logo.gif'></a>";
+				if (zfinID)
+					string += "<a target='_blank' href='http://zfin.org/"+zfinID+"'><img class='link-img' src='figures/zfin.png'></a>";
+				if (entrezID)
+					string += "<a target='_blank' href='http://www.ncbi.nlm.nih.gov/gene/"+entrezID+"'><img class='link-img' src='figures/ncbi.png'></a>";
+				$(dom).append(string+"</div>");
+			};
+		
+		};
+			
+		$("#submit_gene").click(function(){	
+			if (!$("#bin").val()) {
+				alert("You have not specified number of bins!");
+			} else if ($("#simple-color").val() == null && $("#advanced-colors").is(':hidden')) {
+				alert("You have not selected color scheme!");
+			}
+			else {
+				$('.picture').hide();
+				$("#simple-pic").show();
+				$("#add-links").html("");
+				$("#simple-result-text").html('Your job is running. Please, wait.');
+				
+				if ($("#simple-color").val() == null){
+					colora = $("#colorA").val();
+					colorb = $("#colorB").val();
+					if ( $("#second_color").is(':hidden') ){
+						colorb = "NONE";
+					}
+					colorc = $("#colorC").val();
+				} else {
+					colorc = $("#simple-color option:selected").attr('colorA');
+					colorb = $("#simple-color option:selected").attr('colorB');
+					colora = $("#simple-color option:selected").attr('colorC');
+				}
+				var gene_val = $.trim($("#gene").val());
+				is_embr = $("#ext-embr:checked").val();
+				$.ajax({
+					url: "bin/single_map.php",
+					type: "POST",
+					data:
+					{
+						gene: gene_val,
+						colorA: colora,
+						colorB: colorb,
+						colorC: colorc,
+						bins: $("#bin").val(),
+						scale: $("input[name='scale']:checked").val(),
+						gradient: $("input[name='gradient']:checked").val(),
+						data_folder: "../datasets/".concat(dataset),
+						session_folder: session,
+						brain: $("#ext-brain:checked").val(),
+						embr: $("#ext-embr:checked").val(),
+						adult: is_adult,
+						embr_lab: $("#lab-embr:checked").val()
+					},
+					beforeSend: function() {
+     						$('#loaderImg').show();
+        				},
+        				success: function(data){
+					$('#loaderImg').hide();
+					if (data=='There is no protein with such ID in the database available.' || data=="Sorry, the program has fallen.\nPlease, report us about it with your request."){
+						$("#simple-result-text").html("Your job has not been completed!<br>"+data);
+						$("#result-pic").attr("data", "figures/sad_fish.jpg");
+						$("#result-pic-embr").attr("data", "");
+						$("#simple-SVG-save-btn-embr, #simple-PDF-save-btn-embr").hide();
+						$("#add-links").html("No info");
+						alert(data);
+					} else {
+						$("#simple-result-text").html("Your job has been completed successfully!");
+				    		if (is_embr) {
+				    			$("#result-pic-embr").attr("data", "sessions/".concat(session).concat("/").concat(gene_val).concat("_embr.svg"));
+				    			$("#simple-SVG-save-btn-embr, #simple-PDF-save-btn-embr").show();
+				    			$("#simple-SVG-save-embr").attr("href", "sessions/".concat(session).concat("/").concat(gene_val).concat("_embr.svg"));
+				    		$("#simple-PDF-save-embr").attr("href", "sessions/".concat(session).concat("/").concat(gene_val).concat("_embr.pdf"));
+				    		} else {
+				    			$("#result-pic-embr").hide();
+				    			$("#simple-SVG-save-btn-embr, #simple-PDF-save-btn-embr").hide();
+				    		}
+				    		if (is_adult){
+					    		$("#result-pic").attr("data", "sessions/".concat(session).concat("/").concat(gene_val).concat(".svg"));
+					    		$("#simple-SVG-save").attr("href", "sessions/".concat(session).concat("/").concat(gene_val).concat(".svg"));
+					    		$("#simple-PDF-save").attr("href", "sessions/".concat(session).concat("/").concat(gene_val).concat(".pdf"));
+				    		}
+				    		getInfo(gene_val, "#add-links");
+						
+					}
+					}
+				});
+			}		
+		});
+		
+		$("#submit_gene_list").click(function(){
+			
+			$("#multiple-PDF-save-btn, #multiple-ZIP-save-btn").prop( "disabled", true );
+			$("#progressbar").val(0);	
+			$("#bar-text").text(" 0%");
+			$("#preview").html("");
+			if (!$("#bin_list").val()) {
+				alert("You have not specified number of bins!");
+				
+			} else if ($("#simple-color-list").val() == null && $("#advanced-colors-list").is(':hidden')) {
+				alert("You have not selected color scheme!");
+			}
+			else {
+				$('.picture').hide();
+				$("#multiple-pic").show();
+				$("#add-links").html("");
+				$("#multiple-result-text").html('Your job is running. Please, wait.');
+				if ($("#simple-color-list").val() == null){
+					colora = $("#colorA-list").val();
+					colorb = $("#colorB-list").val();
+					if ( $("#second_color-list").is(':hidden') ){
+						colorb = "NONE";
+					}
+					colorc = $("#colorC-list").val();
+				} else {
+					colorc = $("#simple-color-list option:selected").attr('colorA');
+					colorb = $("#simple-color-list option:selected").attr('colorB');
+					colora = $("#simple-color-list option:selected").attr('colorC');
+				}
+				
+				var genes_list = $.trim($("#gene_list").val()).split(/\n/);
+				$("#submit_gene_list").prop( "disabled", true );
+				is_embr = $("#ext-embr-list:checked").val();
+				$.post("bin/multiple_maps.php",
+				{
+					genes: $("#gene_list").val(),
+					colorA: colora,
+					colorB: colorb,
+					colorC: colorc,
+					bins: $("#bin_list").val(),
+					scale: $("input[name='scale_list']:checked").val(),
+					gradient: $("input[name='gradient_list']:checked").val(),
+					data_folder: "../datasets/".concat(dataset),
+					session_folder: session,
+					brain: $("#ext-brain-list:checked").val(),
+					embr: is_embr,
+					adult: is_adult,
+					embr_lab: $("#lab-embr-list:checked").val()
+				},
+				function(data){
+					$("#submit_gene_list").prop( "disabled", false );
+					$("#multiple-PDF-save-btn, #multiple-ZIP-save-btn").prop( "disabled", false );
+					if (data=='There is no protein with such ID in the database available.' || data=="Sorry, the program has fallen.\nPlease, report us about it with your request."){
+						$("#multiple-result-text").html("Your job has not been completed!<br>"+data);
+						$("#add-links").html("No info");
+						alert(data);
+					} else {
+						$("#multiple-result-text").html("Your job has been completed successfully!");
+				    		
+				    		$("#multiple-PDF-save").attr("href", "sessions/".concat(session).concat("/output.pdf"));
+				    		$("#multiple-ZIP-save").attr("href", "sessions/".concat(session).concat("/output.zip"));
+				    		$("#preview").append("<input style='margin-top: 20px;' type='checkbox'  id='preview-all'></input><label id='preview-all-label' for='preview-all'> Select all</label>");
+						alert(data);
+					}
+				});
+				var c = 0;
+				var odd = 1;
+				if (is_adult == false)
+					odd = 0;
+				var string = "";
+				function getProgress(){
+					$.ajax({
+						url: "bin/progress.php",
+						success: function(data){
+							if (data > $("#progressbar").val()) {
+								if (odd==0){
+									if (dataset_conf[7] == "zfs") {
+										string = "<input type='checkbox' name='preview-id' id='preview-"+genes_list[c]+"' value='"+genes_list[c]+"_embr'></input><label for='preview-"+genes_list[c]+"'> "+genes_list[c]+"</label>";
+									} else {
+										string = " <input type='checkbox' name='preview-id' id='preview-"+genes_list[c]+"' value='"+genes_list[c]+"_embr'></input>";
+									}
+									string += "<img class='preview-img' src='sessions/"+session+"/"+genes_list[c]+"_embr.svg'>";
+									odd = 1;
+									if (is_adult == false){
+										odd = 0;
+										getInfo(genes_list[c], "#add-links");
+									}
+									c = c+1;
+									$("#preview").append(string+"<br>");
+								} else {
+									if (odd==1){
+										getInfo(genes_list[c], "#add-links");
+										string = "<input type='checkbox' name='preview-id' id='preview-"+genes_list[c]+"' value='"+genes_list[c]+"'></input><label for='preview-"+genes_list[c]+"'> "+genes_list[c]+"</label> <img class='preview-img' src='sessions/"+session+"/"+genes_list[c]+".svg'>";
+										$("#preview").append(string);
+										string = ""
+										odd = 0;
+									}
+									if (!is_embr){
+										odd=1;
+										c = c+1;
+										$("#preview").append("<br>");
+									}
+								}
+								
+								
+							}
+							$("#progressbar").val(data);
+							$("#bar-text").text(" ".concat(data).concat("%"));
+							if (data<100){
+								getProgress();
+							}
+						}
+					});
+				}
+				getProgress();
+			}		
+		});
+		
+		$("#submit-comp").click(function(){
+			
+			if (!$("#bin-comp").val()) {
+				alert("You have not specified number of bins!");
+				
+			} else if ($("#simple-color-comp").val() == null && $("#advanced-colors-comp").is(':hidden')) {
+				alert("You have not selected color scheme!");
+			} else if ($.trim($("#gene1").val()) == $.trim($("#gene2").val())) {
+				alert("You have selected two identical IDs!");
+			}
+			else {
+				$('.picture').hide();
+				$("#compare-pic").show();
+				$("#add-links").html("");
+				$("#compare-result-text").html('Your job is running. Please, wait.');
+				if ($("#simple-color-comp").val() == null){
+					colora = $("#colorA-comp").val();
+					colorc = $("#colorC-comp").val();
+				} else {
+					colorc = $("#simple-color-comp option:selected").attr('colorA');
+					colora = $("#simple-color-comp option:selected").attr('colorC');
+				}
+				gene_valA = $.trim($("#gene1").val());
+				gene_valB = $.trim($("#gene2").val());
+				$.ajax({
+					url: "bin/compare_expr.php",
+					type: "POST",
+					data:
+					{
+						gene1: gene_valA,
+						gene2: gene_valB,
+						colorA: colora,
+						colorC: colorc,
+						bins: $("#bin-comp").val(),
+						data_folder: "../datasets/".concat(dataset),
+						session_folder: session,
+						brain: $("#ext-brain-comp:checked").val(),
+						embr: $("#ext-embr-comp:checked").val(),
+						adult: is_adult,
+						embr_lab: $("#lab-embr-comp:checked").val()
+					},
+					beforeSend: function() {
+     						$('#loaderImg').show();
+        				},
+        				success: function(data){
+					$('#loaderImg').hide();
+					if (data=='There is no protein with such ID in the database available.' || data=="Sorry, the program has fallen.\nPlease, report us about it with your request."){
+						$("#comppare-result-text").html("Your job has not been completed!<br>"+data);
+						$("#add-links").html("No info");
+						alert(data);
+					} else {
+						$("#compare-result-text").html("Your job has been completed successfully!");
+						var pic_name = gene_valA+"_"+gene_valB;
+				    		$("#compare-result-pic").attr("data", "sessions/".concat(session).concat("/").concat(pic_name).concat(".svg"));
+				    		$("#compare-SVG-save-btn, #compare-PDF-save-btn").prop( "disabled", false );
+				    		$("#compare-SVG-save").attr("href", "sessions/".concat(session).concat("/").concat(pic_name).concat(".svg"));
+				    		$("#compare-PDF-save").attr("href", "sessions/".concat(session).concat("/").concat(pic_name).concat(".pdf"));
+				    		getInfo(gene_valA, "#add-links");
+				    		getInfo(gene_valB, "#add-links");
+						
+					}
+					}
+				});
+			}
+		});
+
+		$("#bin").keyup(checkbin());
+		$("#bin").on('blur', checkbin());
+		$("#bin_list").keyup(checkbin());
+		$("#bin_list").on('blur', checkbin());
+		
+		$("#add_color").click(function(){
+			$(this).hide(500);
+			$("#colorB").val("E8E8E8");
+			$("#second_color").show(500);
+			$("#colorB").trigger("focus");
+			$("#colorB").trigger("blur");
+		});
+		$("#add_color-list").click(function(){
+			$(this).hide(500);
+			$("#colorB-list").val("E8E8E8");
+			$("#second_color-list").show(500);
+			$("#colorB-list").trigger("focus");
+			$("#colorB-list").trigger("blur");
+		});
+		
+		$('ul.mod-links li').click(function() {
+			
+			var tab_id = $(this).attr('data-tab');
+			var pic_id = $(this).attr('pic-tab');
+			
+			$('ul.mod-links li').removeClass('current');
+			$('.mod_content').removeClass('current');
+			$('.picture').hide();
+			
+			$(this).addClass('current');
+			$("#"+tab_id).addClass('current');
+			$("#"+pic_id).show();
+		});
+		
+		$("#id-list-view").click(function(){
+			$("#popup-window").html("");
+			$(".pop-up-window h2").html("ID list");
+			$("#popup-container").show();
+			var data = ProteinIdList;
+			var lines = $(data.toString().split(/\n/));
+			for (var i=0, len=lines.length; i<len; i++) {
+				if (lines[i] != ""){
+				if ($("#Single").attr('class') == 'mod_content current') {
+					lines[i] = "<input type='radio' name='id-select' id='"+lines[i]+"'> </input> <label for='"+lines[i]+"'>"+lines[i]+"</label><br>";
+					$("#popup-window").append(lines[i]);
+				} else if ($("#Multiple").attr('class') == 'mod_content current') {
+					lines[i] = "<input type='checkbox' name='id-select' id='"+lines[i]+"'></input> <label for='"+lines[i]+"'>"+lines[i]+"</label><br>";
+					$("#popup-window").append(lines[i]);
+				} else {
+					lines[i] = lines[i]+"";
+					$("#popup-window").append(lines[i].concat("<br>"));
+				}
+				}
+			}		
+		});
+		$(".eye-btn").click(function(){
+			var ID = $(this).attr('for');
+			$("#popup-window").html("");
+			$(".pop-up-window h2").html("ID list");
+			$("#popup-container").show();
+			var data = ProteinIdList;
+			var lines = $(data.toString().split(/\n/));
+			for (var i=0, len=lines.length; i<len; i++) {
+				if (lines[i] != ""){
+					lines[i] = "<input type='radio' from='eye' for='"+ID+"' name='id-select' id='"+lines[i]+"'> </input> <label for='"+lines[i]+"'>"+lines[i]+"</label><br>";
+					$("#popup-window").append(lines[i]);
+				}
+			}
+		});
+		$("#preproc-result-view").click(function() {
+			$("#popup-window").load("datasets/".concat(dataset).concat("/result_pr.txt"));
+			$(".pop-up-window h2").html("Preprocessing results");
+			$("#popup-container").show();
+		});
+		$(".pop-up-window a").click(function(e){
+			e.preventDefault();
+			$("#popup-container").hide();
+		});
+		$("#popup-container").bind('click', function(event){
+			if (event.target == $('#popup-container').get(0))
+			$("#popup-container").hide();
+		});
+		
+		
+		function ShowTriangle(tab){				
+				$("#show-triangle"+tab).hide();
+				$("#hide-triangle"+tab).show();
+				$("#advanced-colors"+tab).show(500);
+				$("#simple-color"+tab).val($("#simple-color option:first").val());
+		};
+		$("#show-triangle, #show-triangle-list, #show-triangle-comp").click(function(){
+			var tab = $(this).attr('tab');
+			ShowTriangle(tab);
+		});
+		function HideTriangle(tab){
+				$("#show-triangle"+tab).show();
+				$("#hide-triangle"+tab).hide();
+				$("#advanced-colors"+tab).hide(400);
+				$("#second_color"+tab).hide();
+				$("#add_color"+tab).show();
+		}
+		$("#hide-triangle, #hide-triangle-list, #hide-triangle-comp").click(function(){
+			var tab = $(this).attr('tab');
+			HideTriangle(tab);
+		});
+		$("#simple-color, #simple-color-list, #simple-color-comp").on('change', function(){
+			var tab = $(this).attr('tab');
+			HideTriangle(tab);
+		});
+		
+		
+		$("#ext-embr, #ext-embr-list, #ext-embr-comp").change(function(){
+			var from = $(this).attr('from');
+			if ($(this).prop("checked") == false) {
+				$("#lab-embr"+from).prop('disabled', true);
+			} else {
+				$("#lab-embr"+from).prop('disabled', false);
+			}
+		});
+		
+
+	});
+	
+	$(document).on('click', '#popup-window :checkbox', function() {
+		$checks = $(":checkbox[name='id-select']");
+		var string = $checks.filter(":checked").map(function(i,v){
+			return $(this).attr('id');
+		}).get().join("\n");
+		$("#gene_list").val(string);
+	});
+	$(document).on('click', '#popup-window :radio', function() {
+		var string = $(":radio[name='id-select']:checked").attr('id');
+		if ($(this).attr('from')=="eye") {
+			var ID = $(this).attr('for');
+			$("#"+ID).val(string);
+		} else {
+			$("#gene").val(string);
+		}
+	});
+	$(document).on('click', '.preview-img', function() {
+		var string = "<object data="+$(this).attr('src')+" type='image/svg+xml'></object>";
+		$(".pop-up-window h2").html("Expression map");
+		$("#popup-window").html(string);
+		$("#popup-container").show();
+	});
+	$(document).on('click',  function() {
+		$("#preview-all").change(function(){
+			$("input[name='preview-id']").prop('checked', $(this).prop("checked"));
+		});
+	});
+	$(document).on('click', "#multiple-PDF-save-btn, #multiple-ZIP-save-btn", function() {
+		$checks = $("input[name='preview-id']:checked");
+		if ($checks.length == 0) {
+			alert("You have not selected pictures to save!");
+		} else {
+			var pdf = 0;
+			if  (this.id == "multiple-PDF-save-btn") {
+				pdf = 1;
+			};
+			var string = $checks.map(function(i,v){
+				return $(this).val();
+			}).get().join(" ");
+			$.ajax({
+				url: "bin/make_pdf_zip.php", 
+				type: "POST",
+				data: 
+				{
+					genes: string,
+					is_pdf: pdf,
+					session_folder: session
+				},
+				beforeSend: function() {
+	     				$('#loaderImg').show();
+				},
+				success: function(data){
+					$('#loaderImg').hide();
+					if (pdf == 1) {
+						$("#multiple-PDF-save")[0].click();
+					} else {
+						$("#multiple-ZIP-save")[0].click();
+					}
+				}
+			});
+		}
+	});
+	
+
+</script>
+
+
+</head>
+<body  link = "#736D6D" vlink = "#000000" alink = "#30ABE9">
+<div id="wrapper_b">
+	<div id="wrapper">
+		<div id="lable_b">
+
+			<div id="logo">
+				<a href="index.html">
+				<img src="figures/yaz_lable.png" width="120px" height="70px">
+				</a>
+			</div>
+		</div>
+
+
+
+		<div class="modes">
+			<ul class="mod-links">
+				<li class="mod current" data-tab='Single' pic-tab="simple-pic">Single map</li>
+				<li class="mod" data-tab='Multiple' pic-tab="multiple-pic">Multiple maps</li>
+				<li class="mod" data-tab='Proteins' pic-tab="compare-pic">Compare expression</li>
+				<a href="index.html"><li data-tab='Single'>Another dataset</li></a>
+			</ul>
+		</div>
+		
+		<div class="pop-up-container" hidden id="loaderImg">
+		<div class="pop-up" ><img src="figures/loading.gif" alt=""/> <p></p><br>Wait, please</div>
+		</div>
+
+		<div id="content">
+		
+		<div id="dataset-info">
+			<div class="info-cell"><p>Dataset name:</p><span id="data-name">not loaded</span></div>
+			<div class="info-cell"><p>Organism:</p><span id="species">not loaded</span></div>
+			<div class="info-cell"><p>Sex:</p><span id="gender">not loaded</span></div>
+			<div class="info-cell"><p>Stages:</p><span id="embr">not loaded</span></div>
+			<div class="info-cell"><p>ID type:</p><span id="id-type">not loaded</span></div>
+			<div id="prot_list">
+				<p>The list of all protein IDs available:
+				<button type="button" id="id-list-view">View</button><a download href="" id="id-list"><button type="button">Save</button></a></p>
+			</div>
+			<div id="preproc_result">
+				<p>The list of ZFA correspondence:
+				<button type="button" id="preproc-result-view">View</button><a download href="" id="preproc"><button type="button">Save</button></a></p>
+			</div>
+		</div>
+		
+		<div id="contentwrapper">
+		<div id="contentcolumn">
+		<div hidden class="picture" id="simple-pic">
+			<p id="simple-result-text">YAZ is waiting for your query</p>
+			<object id="result-pic" data="figures/carp_temp.png" width="95%" type="image/svg+xml"></object><br>
+			<a href="" download id="simple-SVG-save"><button id="simple-SVG-save-btn" from="" >Save SVG</button></a><a href="" target=_"blank" id="simple-PDF-save"><button id="simple-PDF-save-btn" from="" >Save PDF</button></a><br>
+			<object id="result-pic-embr" data="" width="60%" type="image/svg+xml" style="min-width: 550px"></object><br>
+			<a href="" download id="simple-SVG-save-embr"><button id="simple-SVG-save-btn-embr" from="-embr" hidden>Save SVG</button></a><a href="" target=_"blank" id="simple-PDF-save-embr"><button id="simple-PDF-save-btn-embr" from="-embr" hidden>Save PDF</button></a>
+		</div>
+		
+		<div hidden class="picture" id="multiple-pic">
+			<p id="multiple-result-text">YAZ is waiting for your query</p>
+			<p><progress id="progressbar" value="0" max="100"></progress><label id="bar-text"></label></p>
+			<div id="preview"></div>
+			<a href="" target="_blank" id="multiple-PDF-save"></a><button id="multiple-PDF-save-btn" disabled>Save PDF</button>
+			<a href="" id="multiple-ZIP-save"></a><button id="multiple-ZIP-save-btn" disabled>Save ZIP</button>
+		</div>
+		
+		<div hidden class="picture" id="compare-pic">
+			<p id="compare-result-text">YAZ is waiting for your query</p>
+			<object id="compare-result-pic" data="figures/carp_temp.png" width="95%" type="image/svg+xml"></object>
+			<a href="" download id="compare-SVG-save"><button id="compare-SVG-save-btn" disabled>Save SVG</button></a><a href="" target="_blank" id="compare-PDF-save"><button id="compare-PDF-save-btn" disabled>Save PDF</button></a>
+		</div>
+		
+		<div class="picture" id="intro-pic">
+			<p> You can fill in the protein ID - we will show the protein expression map</p>
+			<object id="result_fish" data="figures/carp_temp.png" width="95%" type="image/svg+xml"></object>
+		</div>
+		</div>
+		</div>
+		
+		<div id="genech_outter">	
+		<div id="Single" class="mod_content current">
+			<div class='boxhead'>Single protein map</div>
+			<div class="mod-body">
+			<form name="test" method="post" target="_self" action="">
+				
+
+				<div class="tool-option"><label id="param"><b>ID:</b> <a class="help-ico"><img src="figures/help.png" title="Type one of the protein IDs as in the input table's row header"></a>
+					<input id="gene" name="gene" type="text" size = "18" >
+				</label></div>
+
+
+				<div class="tool-option"><b>Colors for gradient:</b> <a class="help-ico"><img src="figures/help.png" title="Specify two or three colors for the gradient"></a><Br>
+				Select one of predefined color schemes: <br>
+					<div id="simple-colors">
+						<select id="simple-color" tab="">
+							<option disabled selected value="default">Select color scheme</option>
+							<option colorA="D801D8" colorB="NONE" colorC="00D8D8">magenta-cyan</option>
+							<option colorA="FF0000" colorB="FFA500" colorC="FFFF00">red-orange-yellow</option>
+							<option colorA="FFFF00" colorB="00EE00" colorC="0000EE">yellow-green-blue</option>
+							<option colorA="000000" colorB="NONE" colorC="FFFFFF">black-white</option>
+						</select>
+					</div>
+					<br>
+				Or set your own colors <span id="show-triangle" class="triangle" tab="">&#9662;</span><span hidden class="triangle" id="hide-triangle" tab="">&#9652;</span>
+					<div id="advanced-colors" hidden>
+					<input type="text" id="colorC" value="#AE1C28" class="jscolor {backgroundColor:'#666'}"> <Br>
+					<span id="add_color" class="add-color">+</span>
+					<span id="second_color" hidden="true"><input type="text" id="colorB" value="" class="jscolor {backgroundColor:'#666'}"> <Br></span>
+					<input type="text" id="colorA" value="#21468B" class="jscolor {backgroundColor:'#666'}"> <Br>
+					</div>
+				</div> 
+				<div class="tool-option">Unified gradient for: <a class="help-ico"><img src="figures/help.png" title="You can choose between the uniform gradient for all proteins present in the table and the unique gradient based on maximum and minimum values for each protein."></a><br>
+					<input type="radio" name="gradient" value="ident" id="grad-single1"><label for="grad-single1"> all proteins</label><br>
+					<input type="radio" name="gradient" value="unique" id="grad-single2" checked><label for="grad-single2"> each protein</label><br>
+				</div>
+				<div class="tool-option">Bins (5-100):
+					<input type="text" id="bin" size=4 value=10> <a class="help-ico"><img src="figures/help.png" title="To specify the number of bins for the gradient scale type the number between 5 and 100. "></a>
+				</div>
+				<div class="tool-option">Scale to be used:<br>
+					<input type="radio" name="scale" value="LOG" id="scale-single1" checked><label for="scale-single1"> Log-scale</label><br>
+					<input type="radio" name="scale" value="LINE" id="scale-single2"><label for="scale-single2"> Linear scale</label><br>
+				</div>
+				<div class="tool-option brain-option">Brain:<br>
+					<input type="checkbox" name="ext-brain" id="ext-brain" value="yes" ><label for="ext-brain"> Extended brain picture</label><br>
+				</div>
+				<div class="tool-option embr-option">Developmental stages:<br>
+					<input type="checkbox" name="ext-embr" id="ext-embr" value="true" from="" checked><label for="ext-embr"> include</label><br>
+					<input type="checkbox" name="lab-embr" id="lab-embr" value="yes" checked><label for="lab-embr"> put labels</label><br>
+				</div>
+				<p><button id="submit_gene" type="button">Submit</button></p>
+			</form>
+			</div>
+		</div>
+		
+		
+		<div id="Proteins" class="mod_content">
+			<div class='boxhead'>Compare two genes/proteins</div>
+			<div class="mod-body">
+			<form name="test_2" method="post" target="_self" action="">
+				<div class="tool-option"><b>ID 1:</b><br>
+					<input type="text" name="gene1" id="gene1" size = "16"><button type="button" title="Select ID from list" class="eye-btn" for="gene1"><img src="figures/eye_icon.png" height="12px" width="23px" class="eye" ></button><br>
+				</div>
+				<div class="tool-option"><b>ID 2:</b><br>
+					<input type="text" name="gene2" id="gene2" size = "16"><button type="button" title="Select ID from list" class="eye-btn" for="gene2"><img src="figures/eye_icon.png" height="12px" width="23px" class="eye" ></button><br>
+				</div>
+				<div class="tool-option"><b>Colors for gradient:</b> <a class="help-ico"><img src="figures/help.png" title="Specify two colors for the gradient, white will be in the center"></a><Br>
+				Select one of predefined color schemes: <br>
+					<div id="simple-colors">
+						<select id="simple-color-comp" tab="-comp">
+							<option disabled selected value="default">Select color scheme</option>
+							<option colorA="D801D8" colorC="00D8D8">magenta-cyan</option>
+							<option colorA="FF0000" colorC="0000FF">red-blue</option>
+							<option colorA=""  colorC=""></option>
+						</select>
+					</div>
+					<br>
+				Or set your own colors <span id="show-triangle-comp" class="triangle" tab="-comp">&#9662;</span><span hidden class="triangle" id="hide-triangle-comp" tab="-comp">&#9652;</span>
+					<div id="advanced-colors-comp" hidden>
+					<input type="text" id="colorC-comp" value="#AE1C28" class="jscolor {backgroundColor:'#666'}"> <Br>
+					
+					<input type="text" id="colorA-comp" value="#21468B" class="jscolor {backgroundColor:'#666'}"> <Br>
+					</div>
+				</div>
+				<div class="tool-option">Bins (5-100):
+					<input type="text" id="bin-comp" size=4 value=10> <a class="help-ico"><img src="figures/help.png" title="To specify the number of bins for the gradient scale type the odd number between 5 and 100. "></a>
+				</div>
+				<div class="tool-option brain-option">Brain:<br>
+					<input type="checkbox" name="ext-brain" id="ext-brain-comp" value="yes" ><label for="ext-brain-comp"> Extended brain picture</label><br>
+				</div>
+				<div class="tool-option embr-option">Developmental stages:<br>
+					<input type="checkbox" name="ext-embr-comp" id="ext-embr-comp" value="true" from="-comp" checked><label for="ext-embr-comp"> include</label><br>
+					<input type="checkbox" name="lab-embr-comp" id="lab-embr-comp" value="yes" checked><label for="lab-embr-comp"> put labels</label><br>
+				</div>
+
+				<p><button id="submit-comp" type="button">Submit</button></p>
+			</form>
+			</div>
+		</div>
+		
+		
+		<div id="Multiple" class="mod_content">
+			<div class='boxhead'>Multiple maps</div>
+			<div class="mod-body">
+			<form name="multiple_form" method="post">
+				<div class="tool-option"><b>List of IDs:</b> <a class="help-ico"><img src="figures/help.png" title="Type protein IDs as in the input table's row header. New line for each ID"></a>
+					<textarea id="gene_list" name="gene_list" cols="24" rows= "10" ></textarea>
+				</div>	
+				<div class="tool-option"><b>Colors for gradient:</b> <a class="help-ico"><img src="figures/help.png" title="Specify two or three colors for the gradient"></a><Br>
+				Select one of predefined color schemes: <br>
+					<div id="simple-colors-list">
+						<select id="simple-color-list" tab="-list">
+							<option disabled selected value="default">Select color scheme</option>
+							<option colorA="D801D8" colorB="NONE" colorC="00D8D8">magenta-cyan</option>
+							<option colorA="FF0000" colorB="FFA500" colorC="FFFF00">red-orange-yellow</option>
+							<option colorA="FFFF00" colorB="00EE00" colorC="0000EE">yellow-green-blue</option>
+							<option colorA="000000" colorB="NONE" colorC="FFFFFF">black-white</option>
+						</select>
+					</div>
+					<br>
+				Or set your own colors <span id="show-triangle-list" class="triangle" tab="-list">&#9662;</span><span hidden class="triangle" id="hide-triangle-list" tab="-list">&#9652;</span>
+					<div id="advanced-colors-list" hidden>
+					<input type="text" id="colorC-list" value="#AE1C28" class="jscolor {backgroundColor:'#666'}"> <Br>
+					<span id="add_color-list" class="add-color">+</span>
+					<span id="second_color-list" hidden="true"><input type="text" id="colorB-list" value="" class="jscolor {backgroundColor:'#666'}"> <Br></span>
+					<input type="text" id="colorA-list" value="#21468B" class="jscolor {backgroundColor:'#666'}"> <Br>
+					</div>
+				</div>  
+				<div class="tool-option">Unified gradient for: <a class="help-ico"><img src="figures/help.png" title="You can choose between the uniform gradient for all proteins present in the table and the unique gradient based on maximum and minimum values for each protein."></a><br>
+					<input type="radio" name="gradient_list" value="ident" id="grad-mult1" checked><label for="grad-mult1"> all proteins</label><br>
+					<input type="radio" name="gradient_list" value="unique" id="grad-mult2"><label for="grad-mult2"> each protein</label><br>
+				</div>
+				<div class="tool-option">Bins (5-100):
+					<input type="text" id="bin_list" size=4 value=10> <a class="help-ico"><img src="figures/help.png" title="To specify the number of bins for the gradient scale type the number between 5 and 100. "></a>
+				</div>
+				<div class="tool-option">Scale to be used:<br>
+					<input type="radio" name="scale_list" value="LOG" checked id="scale-mult1"><label for="scale-mult1"> Log-scale</label><br>
+					<input type="radio" name="scale_list" value="LINE" id="scale-mult2"><label for="scale-mult2"> Linear scale</label><br>
+				</div>
+				<div class="tool-option brain-option">Brain:<br>
+					<input type="checkbox" name="ext-brain-list" id="ext-brain-list" value="yes" ><label for="ext-brain-list"> Extended brain picture</label><br>
+				</div>
+				<div class="tool-option embr-option">Developmental stages:<br>
+					<input type="checkbox" name="ext-embr-list" id="ext-embr-list" value="true" from="-list" checked><label for="ext-embr-list"> include</label><br>
+					<input type="checkbox" name="lab-embr-list" id="lab-embr-list" value="yes" checked><label for="lab-embr-list"> put labels</label><br>
+				</div>
+				<p><button id="submit_gene_list" type="button">Submit</button></p>
+			</form>
+			</div>
+		</div>
+		
+		</div>  <!--<div id="genech_outter"> -->
+
+		<div class="clear">
+		</div>
+		
+		<div id="ad-info">
+			<h2>Additional information:</h2>
+			<div id="add-links">Process some ID first
+			</div>
+		</div>
+
+		</div> <!--<div id="content"> -->
+	</div>
+	
+	<div class="pop-up-container" hidden id="popup-container">
+		<div class="pop-up-window" >
+		<h2>not loaded</h2>
+		<a class="close" href="">&times;</a>
+		<div id="popup-window-div"></div>
+		<pre id="popup-window">not loaded</pre>
+		</div>
+	</div>
+	
+	
+	<div id="footer">
+	<div id = "footer_inner">
+		<div class="nav">
+			<ul>
+				<li><a class="active" href="index.html">Tool</a></li>
+				<li><a href="pages/help.html">Help</a></li>
+				<li><a href="pages/feedback.html">Feedback</a></li>
+				<li ><a href="pages/about.html">About</a></li>
+			</ul>
+		</div>
+		
+		<p>&copy; Summer School in Bioinformatics, Leiden 2015-2016</p>
+		<div id="site">
+			<table align="center">
+			<tr><td><a href="http://en.fbb.msu.ru/" target="_blank"><img src="figures/msu.gif" height=70px width=70px></a></td>
+			<td><a href="https://www.lumc.nl/org/proteomics-metabolomics/" target="_blank"><img src="figures/lumc.jpg" height=70px width=70px></a></td></tr>
+			</table>
+		</div>
+	</div>	
+	</div>
+</div>	
+</body>
+</html>

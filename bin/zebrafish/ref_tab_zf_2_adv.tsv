@@ -1,0 +1,48 @@
+"ontology"	"ZF.name"	"index"
+"1"	"ZFA_0000107"	"eye"	8
+"2"	"ZFA_0001161"	"pectoral fin"	3
+"3"	"ZFA_0001184"	"pelvic fin"	4
+"4"	"ZFA_0001173"	"dorsal fin"	2
+"5"	"ZFA_0001162"	"anal fin"	5
+"6"	"ZFA_0001058"	"caudal fin"	6
+"7"	"ZFA_0005145"	"muscle"	666
+"8"	"ZFA_0000669"	"head kidney"	31
+"9"	"ZFA_0001606"	"pharyngeal arch 3"	10
+"10"	"ZFA_0001607"	"pharyngeal arch 4"	11
+"11"	"ZFA_0001293"	"posterior kidney"	33
+"12"	"ZFA_0000368"	"integument"	77
+"13"	"ZFA_0000123"	"liver"	99
+"14"	"ZFA_0000436"	"spleen"	34
+"15"	"ZFA_0009309"	"leukocyte"	97
+"16"	"ZFA_0000208"	"gall bladder"	200
+"17"	"ZFA_0000079"	"telencephalon"	1101
+"18"	"ZFA_0000445"	"optic tectum"	1102
+"19"	"ZFA_0000188"	"corpus cerebelli"	1107
+"20"	"ZFA_0000297"	"vagal lobe"	1112
+"21"	"ZFA_0000545"	"medulla oblongata"	1113
+"22"	"ZFA_0000118"	"hypophysis"	24
+"23"	"ZFA_0000471"	"atrium"	15
+"24"	"ZFA_0000009"	"cardiac ventricle"	13
+"25"	"ZFA_0000173"	"bulbus arteriosus"	14
+"26"	"ZFA_0001277"	"anterior chamber swim bladder"	27
+"27"	"ZFA_0001278"	"posterior chamber swim bladder"	28
+"28"	"ZFA_0009256"	"nucleate erythrocyte"	501
+"29"	"ZFA_0001437"	"ductus communicans"	9999
+"30"	"ZFA_0000403"	"ovary"	30
+"31"	"ZFA_0000598"	"testis"	29
+"32"	"ZFA_0001076"	"intestinal bulb"	224
+"33"	"ZFA_0001323"	"mid intestine"	25
+"34"	"ZFA_0000706"	"posterior intestine"	226
+"35"	"ZFA_0000008"	"brain"	1
+"36"	"ZFA_0000154"	"sinus venosus"	7
+"37"	"ZFA_0001608"	"pharyngeal arch 5"	12
+"38"	"ZFA_0000402"	"olfactory bulb"	1103
+"39"	"ZFA_0000406"	"parvocellular superficial pretectal nucleus"	1104
+"40"	"ZFA_0000435"	"cranial nerve II"	1105
+"41"	"ZFA_0000212"	"granular eminence"	1108
+"42"	"ZFA_0000075"	"spinal cord"	1109
+"43"	"ZFA_0001479"	"lateral line nerve"	1114
+"44"	"ZFA_0009265"	"monocyte"	504
+"45"	"ZFA_0009049"	"mature neutrophil"	503
+"46"	"ZFA_0009250"	"lymphocyte"	505
+"47"	"ZFA_0001609"	"pharyngeal arch 6"	9

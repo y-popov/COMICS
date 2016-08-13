@@ -1,0 +1,40 @@
+"ontology"	"ZF.name"	"index"
+"1"	"ZFA_0000622"	"barbel"	16
+"2"	"ZFA_0000035"	"lens"	8
+"3"	"ZFA_0001161"	"pectoral fin"	3
+"4"	"ZFA_0001184"	"pelvic fin"	4
+"5"	"ZFA_0001173"	"dorsal fin"	2
+"6"	"ZFA_0001162"	"anal fin"	5
+"7"	"ZFA_0001604"	"caudal fin upper lobe"	6
+"8"	"ZFA_0001605"	"caudal fin lower lobe"	7
+"9"	"ZFA_0005145"	"muscle"	666
+"10"	"ZFA_0000669"	"head kidney"	31
+"11"	"ZFA_0001606"	"pharyngeal arch 3"	10
+"12"	"ZFA_0001607"	"pharyngeal arch 4"	11
+"13"	"ZFA_0001078"	"thymus"	40
+"15"	"ZFA_0001293"	"posterior kidney"	33
+"16"	"ZFA_0000368"	"integument"	77
+"17"	"ZFA_0000123"	"liver"	99
+"18"	"ZFA_0000436"	"spleen"	34
+"19"	"ZFA_0009309"	"leukocyte"	97
+"20"	"ZFA_0000208"	"gall bladder"	200
+"21"	"ZFA_0000079"	"telencephalon"	1101
+"22"	"ZFA_0000445"	"optic tectum"	1102
+"23"	"ZFA_0000188"	"corpus cerebelli"	1107
+"24"	"ZFA_0000297"	"vagal lobe"	1112
+"25"	"ZFA_0000545"	"medulla oblongata"	1113
+"26"	"ZFA_0000118"	"hypophysis"	11524
+"27"	"ZFA_0000109"	"forebrain"	17
+"28"	"ZFA_0000029"	"hindbrain"	18
+"29"	"ZFA_0000471"	"atrium"	15
+"30"	"ZFA_0000009"	"cardiac ventricle"	13
+"31"	"ZFA_0000173"	"bulbus arteriosus"	14
+"32"	"ZFA_0001277"	"anterior chamber swim bladder"	27
+"33"	"ZFA_0001278"	"posterior chamber swim bladder"	28
+"34"	"ZFA_0009256"	"nucleate erythrocyte"	111
+"35"	"ZFA_0001437"	"ductus communicans"	999999
+"36"	"ZFA_0000403"	"ovary"	30
+"37"	"ZFA_0000598"	"testis"	29
+"38"	"ZFA_0001076"	"intestinal bulb"	224
+"39"	"ZFA_0001323"	"mid intestine"	25
+"40"	"ZFA_0000706"	"posterior intestine"	226

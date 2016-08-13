@@ -1,0 +1,66 @@
+----  ZFA_0000622
+ZFA_0000622 found among available
+----  ZFA_0000035
+ZFA_0000035 found among available
+----  ZFA_0001161
+ZFA_0001161 found among available
+----  ZFA_0001184
+ZFA_0001184 found among available
+----  ZFA_0001173
+ZFA_0001173 found among available
+----  ZFA_0001162
+ZFA_0001162 found among available
+----  ZFA_0001604
+ZFA_0001604 found among available
+----  ZFA_0001605
+ZFA_0001605 found among available
+----  ZFA_0005145
+ZFA_0005145 found among available
+----  ZFA_0000669
+ZFA_0000669 found among available
+----  ZFA_0001606
+ZFA_0001606 found among available
+----  ZFA_0001607
+ZFA_0001607 found among available
+----  ZFA_0001078
+ZFA_0001078 found among available
+----  ZFA_0001293
+ZFA_0001293 found among available
+----  ZFA_0000368
+ZFA_0000368 found among available
+----  ZFA_0000598
+ZFA_0000598 found among available
+----  ZFA_0000123
+ZFA_0000123 found among available
+----  ZFA_0000436
+ZFA_0000436 found among available
+----  ZFA_0009309
+ZFA_0009309 found among available
+----  ZFA_0000208
+ZFA_0000208 found among available
+----  ZFA_0000112
+ZFA_0000112 gut gave its value to the child/part mid intestine
+ZFA_0000112 gut gave its value to the child/part posterior intestine
+ZFA_0000112 gut gave its value to the child/part intestinal bulb
+----  ZFA_0000079
+ZFA_0000079 found among available
+----  ZFA_0000445
+ZFA_0000445 found among available
+----  ZFA_0000188
+ZFA_0000188 found among available
+----  ZFA_0000297
+ZFA_0000297 found among available
+----  ZFA_0000545
+ZFA_0000545 found among available
+----  ZFA_0000118
+ZFA_0000118 found among available
+----  ZFA_0000109
+ZFA_0000109 found among available
+----  ZFA_0000029
+ZFA_0000029 found among available
+----  ZFA_0000471
+ZFA_0000471 found among available
+----  ZFA_0000009
+ZFA_0000009 found among available
+----  ZFA_0000173
+ZFA_0000173 found among available

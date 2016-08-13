@@ -1,0 +1,24 @@
+"ontology"	"ZF.name"	"x"	"y"
+"1"	"0.2 hpf"	"Zygote:1-cell"	0.17 0.80
+"2"	"0.75 hpf"	"Cleavage:2-cell"	0.33 0.80
+"3"	"1 hpf"	"Cleavage:4-cell"	0.48 0.80
+"4"	"1.25 hpf"	"Cleavage:8-cell"	0.63 0.80
+"5"	"1.5 hpf"	"Cleavage:16-cell"	0.78 0.80
+"6"	"1.75 hpf"	"Cleavage:32-cell"	0.17	0.635
+"7"	"2.25 hpf"	"Blastula:128-cell"	0.33	0.635
+"8"	"2.5 hpf"	"Blastula:256-cell"	0.48	0.635
+"9"	"3.3 hpf"	"Blastula:High"	0.63	0.635
+"10"	"4 hpf"	"Blastula:Sphere"	0.78	0.635
+"11"	"4.3 hpf"	"Blastula:Dome"	0.17	0.49
+"12"	"4.7 hpf"	"Blastula:30%-epiboly"	0.33	0.49
+"13"	"5.3 hpf"	"Gastrula:50%-epiboly"	0.48	0.49
+"14"	"5.7 hpf"	"Gastrula:Germ-ring"	0.63	0.49
+"15"	"6 hpf"	"Gastrula:Shield"	0.78	0.49
+"16"	"8 hpf"	"Gastrula:75%-epiboly"	0.17 0.33
+"17"	"9 hpf"	"Gastrula:90%-epiboly"	0.33 0.33
+"18"	"12 hpf"	"Segmentation:5-9 somites"	0.48	0.33
+"19"	"14-16 hpf"	"Segmentation:10-13 somites"	0.63	0.33
+"20"	"16-18 hpf"	"Segmentation:14-19 somites"	0.78	0.33
+"21"	"22-25 hpf"	"Segmentation:26+ somites"	0.17	0.09
+"22"	"25-35 hpf"	"pharyngula"	0.6	0.225
+"23"	"35-72 hpf"	"larva"	0.6	0.09

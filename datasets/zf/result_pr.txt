@@ -1,0 +1,42 @@
+----  ZFA_0005145
+ZFA_0005145 found among available
+----  ZFA_0000208
+ZFA_0000208 found among available
+----  ZFA_0000108
+ZFA_0000108 fin gave its value to the child/part caudal fin
+ZFA_0000108 fin gave its value to the child/part dorsal fin
+ZFA_0000108 fin gave its value to the child/part pelvic fin
+ZFA_0000108 fin gave its value to the child/part pectoral fin
+ZFA_0000108 fin gave its value to the child/part anal fin
+----  ZFA_0000107
+ZFA_0000107 found among available
+----  ZFA_0001338
+ZFA_0001338 intestine gave its value to the child/part posterior intestine
+ZFA_0001338 intestine gave its value to the child/part intestinal bulb
+ZFA_0001338 intestine gave its value to the child/part mid intestine
+----  ZFA_0000123
+ZFA_0000123 found among available
+----  ZFA_0000008
+ZFA_0000008 found among available
+----  ZFA_0000354
+ZFA_0000354 gill is not found
+----  ZFA_0000114
+ZFA_0000114 heart gave its value to the child/part bulbus arteriosus
+ZFA_0000114 heart gave its value to the child/part atrium
+ZFA_0000114 heart gave its value to the child/part sinus venosus
+ZFA_0000114 heart gave its value to the child/part cardiac ventricle
+----  ZFA_0000368
+ZFA_0000368 found among available
+----  ZFA_0000436
+ZFA_0000436 found among available
+----  ZFA_0000076
+ZFA_0000076 swim bladder gave its value to the child/part ductus communicans
+ZFA_0000076 swim bladder gave its value to the child/part anterior chamber swim bladder
+ZFA_0000076 swim bladder gave its value to the child/part posterior chamber swim bladder
+----  ZFA_0000529
+ZFA_0000529 kidney gave its value to the child/part head kidney
+ZFA_0000529 kidney gave its value to the child/part posterior kidney
+----  ZFA_0000598
+ZFA_0000598 found among available
+----  ZFA_0000403
+ZFA_0000403 found among available
