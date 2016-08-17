@@ -1,2 +1,1 @@
-../datasets/carp cypCar_00040548.RA
-cypCar_00029040.RA 00D8D8 NONE D801D8 10 ident LOG ../sessions/mysession/ false yes true
+../datasets/carp cypCar_00048311.RA cypCar_00046269.RA 00D8D8 D801D8 10 ../sessions/mysession/ no false no

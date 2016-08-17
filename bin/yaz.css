@@ -64,7 +64,7 @@ button {
 	text-decoration: none;
 }
 .nav li:hover{
-	background: #4EA39A;
+	background: #869FCD;
 	cursor: pointer;
 	color: white !important;
 }
@@ -77,7 +77,7 @@ button {
 	width:90%;
 	text-align: left;
 	min-height:250px;
-	background: url(../figures/15.jpg) no-repeat 50% 35%;
+	background: url(../figures/comics.png) ;
 	background-size: cover;
 	width: 100%;
 	height: 100%;
@@ -202,6 +202,8 @@ button {
 	text-align:center;
 	border: 2px solid grey;
 	min-width: 650px;
+	border-radius: 10px;
+	padding: 10px;
 }
 
 #param{
@@ -342,7 +344,8 @@ button {
 	left: 0;
 	right: 0;
 	background: rgba(0,0,0,0.7);
-	min-height: 100%;
+	height: 100%;
+	width: 100%;
 	text-align: center;
 }
 .pop-up {
@@ -353,6 +356,12 @@ button {
 	width: 30%;
 	vertical-align: middle;
 	position: relative;
+}
+.pop-up:before {
+	content: "";
+	display: inline-block;
+	vertical-align: middle;
+	height: 100%;
 }
 .pop-up-window {
 	background: white;
@@ -407,15 +416,17 @@ button {
 .eye {
 	vertical-align: middle;
 	padding-bottom: 4px;
+	
 }
 .eye-btn {
 	vertical-align: top;
-	padding: 0px
+	padding: 0px;
 }
 .link-div {
 	border: 3px solid #BBCBE8;
 	padding: 7px;
 	margin: 7px;
+	border-radius: 10px;
 }
 .link-img {
 	display: inline-block;

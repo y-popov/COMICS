@@ -1,5 +1,9 @@
 <?php
 
+session_start();
+$_SESSION["progress"]=0;
+session_write_close();
+
 header('Content-Type: text/event-stream');
 // recommended to prevent caching of event data.
 header('Cache-Control: no-cache'); 

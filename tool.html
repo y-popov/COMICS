@@ -8,7 +8,7 @@
 <script src="bin/jquery-3.1.0.min.js"></script>
 <script src="bin/jscolor.js"></script> <!-- Color Picker -->
 <link href="bin/yaz.css" rel="stylesheet" type="text/css">
-<link rel="icon" href="figures/yaz_lable.png" type="image/x-icon">
+<link rel="icon" href="figures/yaz_lable.png" type="image/png">
 <meta http-equiv="Content-Language" content="en">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=640">
@@ -36,6 +36,17 @@ a {
 		return decodeURIComponent(results[2].replace(/\+/g, " "));
 	}
 
+	function makeid(len)
+	{
+	    var text = "";
+	    var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+	    for( var i=0; i < len; i++ )
+		text += possible.charAt(Math.floor(Math.random() * possible.length));
+
+	    return text;
+	}
+
 	function checkbin(){
 	return function(){
 		if ( parseInt($(this).val()) < 5 || parseInt($(this).val()) > 100 || $(this).val() == ""){
@@ -57,6 +68,7 @@ a {
 	});
 	
 	$(document).ready(function(){	
+		$.ajaxSetup({ cache: false });
 		var colora, colorb, colorc;
 		var dataset_conf;
 		var is_adult = true, is_embr = true;
@@ -367,7 +379,7 @@ a {
 									} else {
 										string = " <input type='checkbox' name='preview-id' id='preview-"+genes_list[c]+"' value='"+genes_list[c]+"_embr'></input>";
 									}
-									string += "<img class='preview-img' src='sessions/"+session+"/"+genes_list[c]+"_embr.svg'>";
+									string += "<img class='preview-img' src='sessions/"+session+"/"+genes_list[c]+"_embr.svg?dummy="+makeid(5)+"'/>";
 									odd = 1;
 									if (is_adult == false){
 										odd = 0;
@@ -378,7 +390,7 @@ a {
 								} else {
 									if (odd==1){
 										getInfo(genes_list[c], "#add-links");
-										string = "<input type='checkbox' name='preview-id' id='preview-"+genes_list[c]+"' value='"+genes_list[c]+"'></input><label for='preview-"+genes_list[c]+"'> "+genes_list[c]+"</label> <img class='preview-img' src='sessions/"+session+"/"+genes_list[c]+".svg'>";
+										string = "<input type='checkbox' name='preview-id' id='preview-"+genes_list[c]+"' value='"+genes_list[c]+"'></input><label for='preview-"+genes_list[c]+"'> "+genes_list[c]+"</label> <img class='preview-img' src='sessions/"+session+"/"+genes_list[c]+".svg?dummy="+makeid(5)+"'/>";
 										$("#preview").append(string);
 										string = ""
 										odd = 0;
@@ -512,10 +524,7 @@ a {
 			var lines = $(data.toString().split(/\n/));
 			for (var i=0, len=lines.length; i<len; i++) {
 				if (lines[i] != ""){
-				if ($("#Single").attr('class') == 'mod_content current') {
-					lines[i] = "<input type='radio' name='id-select' id='"+lines[i]+"'> </input> <label for='"+lines[i]+"'>"+lines[i]+"</label><br>";
-					$("#popup-window").append(lines[i]);
-				} else if ($("#Multiple").attr('class') == 'mod_content current') {
+				if ($("#Multiple").attr('class') == 'mod_content current') {
 					lines[i] = "<input type='checkbox' name='id-select' id='"+lines[i]+"'></input> <label for='"+lines[i]+"'>"+lines[i]+"</label><br>";
 					$("#popup-window").append(lines[i]);
 				} else {
@@ -668,7 +677,7 @@ a {
 
 			<div id="logo">
 				<a href="index.html">
-				<img src="figures/yaz_lable.png" width="120px" height="70px">
+				<!--<img src="figures/yaz_lable.png" width="120px" height="70px">-->
 				</a>
 			</div>
 		</div>
@@ -685,7 +694,7 @@ a {
 		</div>
 		
 		<div class="pop-up-container" hidden id="loaderImg">
-		<div class="pop-up" ><img src="figures/loading.gif" alt=""/> <p></p><br>Wait, please</div>
+		<div class="pop-up" ><img src="figures/loading.gif" alt=""/><br> <p>Wait, please</p></div>
 		</div>
 
 		<div id="content">
@@ -710,7 +719,7 @@ a {
 		<div id="contentcolumn">
 		<div hidden class="picture" id="simple-pic">
 			<p id="simple-result-text">YAZ is waiting for your query</p>
-			<object id="result-pic" data="figures/carp_temp.png" width="95%" type="image/svg+xml"></object><br>
+			<object id="result-pic" data="" width="95%" type="image/svg+xml"></object><br>
 			<a href="" download id="simple-SVG-save"><button id="simple-SVG-save-btn" from="" >Save SVG</button></a><a href="" target=_"blank" id="simple-PDF-save"><button id="simple-PDF-save-btn" from="" >Save PDF</button></a><br>
 			<object id="result-pic-embr" data="" width="60%" type="image/svg+xml" style="min-width: 550px"></object><br>
 			<a href="" download id="simple-SVG-save-embr"><button id="simple-SVG-save-btn-embr" from="-embr" hidden>Save SVG</button></a><a href="" target=_"blank" id="simple-PDF-save-embr"><button id="simple-PDF-save-btn-embr" from="-embr" hidden>Save PDF</button></a>
@@ -726,13 +735,13 @@ a {
 		
 		<div hidden class="picture" id="compare-pic">
 			<p id="compare-result-text">YAZ is waiting for your query</p>
-			<object id="compare-result-pic" data="figures/carp_temp.png" width="95%" type="image/svg+xml"></object>
+			<object id="compare-result-pic" data="" width="95%" type="image/svg+xml"></object>
 			<a href="" download id="compare-SVG-save"><button id="compare-SVG-save-btn" disabled>Save SVG</button></a><a href="" target="_blank" id="compare-PDF-save"><button id="compare-PDF-save-btn" disabled>Save PDF</button></a>
 		</div>
 		
 		<div class="picture" id="intro-pic">
 			<p> You can fill in the protein ID - we will show the protein expression map</p>
-			<object id="result_fish" data="figures/carp_temp.png" width="95%" type="image/svg+xml"></object>
+			<object id="result_fish" data="figures/carp_temp.png" width="95%" type="image/png"></object>
 		</div>
 		</div>
 		</div>
@@ -744,8 +753,8 @@ a {
 			<form name="test" method="post" target="_self" action="">
 				
 
-				<div class="tool-option"><label id="param"><b>ID:</b> <a class="help-ico"><img src="figures/help.png" title="Type one of the protein IDs as in the input table's row header"></a>
-					<input id="gene" name="gene" type="text" size = "18" >
+				<div class="tool-option"><label id="param"><b>ID:</b> <a class="help-ico"><img src="figures/help.png" title="Type one of the protein IDs as in the input table's row header"></a><br>
+					<input id="gene" name="gene" type="text" size = "16" ><button type="button" title="Select ID from list" class="eye-btn" for="gene"><img src="figures/eye_icon.png" height="12px" width="23px" class="eye" ></button>
 				</label></div>
 
 
@@ -843,7 +852,7 @@ a {
 			<div class="mod-body">
 			<form name="multiple_form" method="post">
 				<div class="tool-option"><b>List of IDs:</b> <a class="help-ico"><img src="figures/help.png" title="Type protein IDs as in the input table's row header. New line for each ID"></a>
-					<textarea id="gene_list" name="gene_list" cols="24" rows= "10" ></textarea>
+					<textarea id="gene_list" name="gene_list" cols="22" rows= "10" ></textarea>
 				</div>	
 				<div class="tool-option"><b>Colors for gradient:</b> <a class="help-ico"><img src="figures/help.png" title="Specify two or three colors for the gradient"></a><Br>
 				Select one of predefined color schemes: <br>
@@ -918,7 +927,7 @@ a {
 			<ul>
 				<li><a class="active" href="index.html">Tool</a></li>
 				<li><a href="pages/help.html">Help</a></li>
-				<li><a href="pages/feedback.html">Feedback</a></li>
+				<!--<li><a href="pages/feedback.html">Feedback</a></li>-->
 				<li ><a href="pages/about.html">About</a></li>
 			</ul>
 		</div>
