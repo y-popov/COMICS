@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>YAZ</title>
+<title>COMICS</title>
 <!--script type="text/javascript" src="js/jquery-1.7.2.min.js"></script>
 <script type="text/javascript" src="js/common.js"></script><style type="text/css"></style-->
 <script src="bin/tooltip.js"></script>
@@ -26,6 +26,7 @@ a {
 
 
 <script>
+	//makes random string
 	function makeid(len)
 	{
 	    var text = "";
@@ -40,9 +41,10 @@ a {
 		return "mysession";
 	}
 	
+
 	$(document).ready(function(){
 	
-	
+	//reads datasets from file
 	function updateData(){
 			$.get("datasets.txt", function(response){
 				$.get("datasets_default.txt", function(def){
@@ -55,9 +57,8 @@ a {
 	}
 
 		
-	
+		//opens content under buttons
 		$('.big_btn').click(function() {
-			
 			$("#session").val(standaloneID());
 			
 			var tab_id = $(this).attr('data-tab');
@@ -71,6 +72,7 @@ a {
 		
 		$("#Use").click(function(){updateData()});
 		
+		//checks content in input fields
 		$("select[name='dataset']").on('change', function(){
 			if  ($("select[name='dataset'] option:selected").text()=="Select dataset") {
 				$("#use-option").css("border", "2px solid #D80000");
@@ -87,7 +89,7 @@ a {
 			}
 		});
 		
-		
+		//checks content in input fields
 		$("input[name='data-name']").on('input propertychange paste', function(){
 			if (!$("input[name='data-name']").val()) {
 				$("#data-name-option").css("border", "2px solid #D80000");
@@ -124,6 +126,7 @@ a {
 				$("#file-option").css("border", "2px solid green");
 			}
 		});
+		//checks input and uploads dataset to server
 		$("#upload_data").click(function(){
 			if ( !($("input[name='data']").val() || $("#data-by-text").prop("checked")) || (!$("textarea").val() && $("#data-by-text").prop("checked")) ) {
 				$("#file-option").css("border", "2px solid #D80000");
@@ -142,6 +145,7 @@ a {
 				alert("You have not specified your dataset name!");
 			}
 			else {
+				//create Data object for sending it to server
 				var formData = new FormData();
 				formData.append("fish", $("input[name='fish']:checked").val()) ;
 				formData.append("data_name", $("input[name='data-name']").val());
@@ -181,6 +185,7 @@ a {
 			}
 		});
 		
+		//deletes datasets
 		$("#delete-dataset-btn").click(function(){
 			if  ($("select[name='delete-dataset'] option:selected").text()=="Delete dataset") {
 				$("#delete-option").css("border", "2px solid #D80000");
@@ -199,6 +204,7 @@ a {
 				}
 			}
 		});
+		//checks input for deleting dataset
 		$("select[name='delete-dataset']").on('change', function(){
 			if  ($("select[name='delete-dataset'] option:selected").text()=="Delete dataset") {
 				$("#delete-option").css("border", "2px solid #D80000");
@@ -207,6 +213,7 @@ a {
 			}
 		});
 	
+	//hides and shows textarea
 	$("#data-by-text").prop( "checked", false );	
 	$("#data-by-text").on('change', function() {
 		$("textarea").toggle(500);
@@ -246,6 +253,7 @@ a {
 		<div id="content">
 		
 			<p id="intro">This incredible tool provides you an unique opportunity to visualize protein and gene expression in spatial context for Zebrafish <i>(Danio rerio)</i> or Carp (<i>Cyprinus carpio</i>).</p>
+			<p id="intro"> COMICS is a tool for visualisation of protein expression data acquired from <a href="http://chemdata.nist.gov/dokuwiki/doku.php?id=peptidew:lib:zebrafish20150109">NIST Library of Peptide Tandem Mass Spectra</a> for model organism (currently Zebrafish (<i>Danio rerio</i>) and Carp (<i>Cyprinus carpio</i>) are available). To get the expression map you should upload your dataset (or select one from predefined datasets), then simply enter the UniProt ID of the gene/protein of interest and specify some parameters of picture.</p>
 			
 
 		

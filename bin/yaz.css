@@ -76,7 +76,7 @@ button {
 	margin:8px auto;
 	width:90%;
 	text-align: left;
-	min-height:250px;
+	min-height:280px;
 	background: url(../figures/comics.png) ;
 	background-size: cover;
 	width: 100%;
@@ -203,7 +203,7 @@ button {
 	border: 2px solid grey;
 	min-width: 650px;
 	border-radius: 10px;
-	padding: 10px;
+	padding: 20px;
 }
 
 #param{
@@ -413,6 +413,11 @@ button {
 	box-shadow: 0 0 2px 1px #21468B;
 	cursor: pointer;
 }
+.preview-div {
+	display: inline-block;
+	text-align: center;
+	margin: 10px;
+}
 .eye {
 	vertical-align: middle;
 	padding-bottom: 4px;
@@ -434,14 +439,20 @@ button {
 	border: 1px solid #ddd;
 	border-radius: 4px;
 	padding: 5px;
-	margin: 0 10px;
+	margin: 5px 10px;
 	vertical-align: middle;
+	text-align: center;
 }
 .link-img:before{
 	content: "";
 	display: inline-block;
 	vertical-align: middle;
 	height: 100%;
+}
+.link-text {
+	margin: 5px 10px;
+	display: inline-block;
+	text-align: left;
 }
 .link-id {
 	display: inline-block;
@@ -465,4 +476,21 @@ button {
 	display: inline-block;
 	vertical-align: middle;
 	height: 100%;
+}
+.link-gene {
+	width: 10%;
+	display: inline-block;
+	vertical-align: middle;
+}
+.uniprot {
+	width: 107.656px;
+	display: inline-block;
+}
+.zfin {
+	width: 200px;
+	display: inline-block;
+}
+.entrez {
+	width: 93.328px;
+	display: inline-block;
 }

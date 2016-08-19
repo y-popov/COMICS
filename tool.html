@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>YAZ</title>
+<title>COMICS</title>
 <!--script type="text/javascript" src="js/jquery-1.7.2.min.js"></script>
 <script type="text/javascript" src="js/common.js"></script><style type="text/css"></style-->
 <script src="bin/tooltip.js"></script>
@@ -26,6 +26,7 @@ a {
 
 
 <script>	
+	//reads parameters from url
 	function getParameterByName(name, url) {
 		if (!url) url = window.location.href;
 		name = name.replace(/[\[\]]/g, "\\$&");
@@ -35,7 +36,8 @@ a {
 		if (!results[2]) return '';
 		return decodeURIComponent(results[2].replace(/\+/g, " "));
 	}
-
+	
+	//makes random string
 	function makeid(len)
 	{
 	    var text = "";
@@ -46,7 +48,8 @@ a {
 
 	    return text;
 	}
-
+	
+	//checks input field for bins number
 	function checkbin(){
 	return function(){
 		if ( parseInt($(this).val()) < 5 || parseInt($(this).val()) > 100 || $(this).val() == ""){
@@ -60,12 +63,17 @@ a {
     		};
 	};
 	
+	//get parameters from url
 	var dataset = getParameterByName('dataset');
 	var session = getParameterByName('session');
+	//reads ID list from file
 	var ProteinIdList;
 	$.get("datasets/".concat(dataset).concat("/ProteinIDlist.txt"), function(data) {
 		ProteinIdList = data;
 	});
+	
+	//header from info table
+	var info_tab_header = "<div class='link-div'><div class='link-id'>ID</div><div class='link-gene'>Gene name</div><div class='link-names'>Protein name</div> <div class='uniprot'><a target='_blank' href='http://www.uniprot.org/'><img class='link-img' src='figures/uniprot_logo.gif'></a></div> <div class='zfin' style='text-align:center'><a target='_blank' href='http://zfin.org/'><img class='link-img' src='figures/zfin.png'></a></div> <div class='entrez'><a target='_blank' href='http://www.ncbi.nlm.nih.gov/gene/'><img class='link-img' src='figures/ncbi.png'></a></div></div>"
 	
 	$(document).ready(function(){	
 		$.ajaxSetup({ cache: false });
@@ -74,6 +82,8 @@ a {
 		var is_adult = true, is_embr = true;
 		var IDtype;
 		var conf_file = "datasets/".concat(dataset).concat("/data.conf");
+		
+		//get dataset configuration from file
 		$.get(conf_file, function(response) {
 			dataset_conf = response.split('\n');
 			if (dataset_conf[1] == "ZF"){
@@ -110,12 +120,12 @@ a {
 			$("#preproc").attr("href", "datasets/".concat(dataset).concat("/result_pr.txt"));
 		});
 		
-		
+		//gets information from databases about ID
 		function getInfo(ID, dom) {
 			var string, uniURL;
 			var comp1=false, comp2=false, comp3=false;
 			var fromID, zfinID, uniprotID, entrezID;
-			var name= "";
+			var name= "", gene_name="";
 			if (IDtype=="UniProt ID"){
 				uniprotID = ID;
 			} else if (IDtype=="ZFIN ID") {
@@ -143,6 +153,7 @@ a {
 					}
 				});
 			}
+			//since we know uniprotID we can map it to another IDs
 			if (uniprotID) {
 				$.ajax({
 					url: "http://www.uniprot.org/uniprot/"+uniprotID+".xml",
@@ -154,6 +165,10 @@ a {
 								name += temp+"<br>";
 							}
 						};
+						buff = data.getElementsByTagName("gene")[0];
+						buff = buff.getElementsByTagName("name")[0].firstChild;
+						gene_name = buff.nodeValue;
+						
 					},
 					complete: function(){
 						comp1 = true;
@@ -203,20 +218,21 @@ a {
 			} else {
 				$(dom).append(ID+": No info or no Internet connection<br>");
 			}
-			
+			//puts derived information to info-table
 			function writeInfo(){
-				string = "<div class='link-div'><div class='link-id'>"+ID+"</div><div class='link-names'>"+name+"</div>";
+				string = "<div class='link-div'><div class='link-id'>"+ID+"</div><div class='link-gene'>"+gene_name+"</div><div class='link-names'>"+name+"</div>";
 				if (uniprotID)
-					string += "<a target='_blank' href='http://www.uniprot.org/uniprot/"+uniprotID+"'><img class='link-img' src='figures/uniprot_logo.gif'></a>";
+					string += "<div class='link-text uniprot'><a target='_blank' href='http://www.uniprot.org/uniprot/"+uniprotID+"'>"+uniprotID+"</a></div>";
 				if (zfinID)
-					string += "<a target='_blank' href='http://zfin.org/"+zfinID+"'><img class='link-img' src='figures/zfin.png'></a>";
+					string += "<div class='link-text zfin'><a class='link-text' target='_blank' href='http://zfin.org/"+zfinID+"'>"+zfinID+"</a></div>";
 				if (entrezID)
-					string += "<a target='_blank' href='http://www.ncbi.nlm.nih.gov/gene/"+entrezID+"'><img class='link-img' src='figures/ncbi.png'></a>";
+					string += "<div class='link-text entrez'><a target='_blank' href='http://www.ncbi.nlm.nih.gov/gene/"+entrezID+"'>"+entrezID+"</a></div>";
 				$(dom).append(string+"</div>");
 			};
 		
 		};
-			
+		
+		//action for Single Map tab	
 		$("#submit_gene").click(function(){	
 			if (!$("#bin").val()) {
 				alert("You have not specified number of bins!");
@@ -277,6 +293,7 @@ a {
 					} else {
 						$("#simple-result-text").html("Your job has been completed successfully!");
 				    		if (is_embr) {
+							$("#result-pic-embr").show();
 				    			$("#result-pic-embr").attr("data", "sessions/".concat(session).concat("/").concat(gene_val).concat("_embr.svg"));
 				    			$("#simple-SVG-save-btn-embr, #simple-PDF-save-btn-embr").show();
 				    			$("#simple-SVG-save-embr").attr("href", "sessions/".concat(session).concat("/").concat(gene_val).concat("_embr.svg"));
@@ -290,7 +307,8 @@ a {
 					    		$("#simple-SVG-save").attr("href", "sessions/".concat(session).concat("/").concat(gene_val).concat(".svg"));
 					    		$("#simple-PDF-save").attr("href", "sessions/".concat(session).concat("/").concat(gene_val).concat(".pdf"));
 				    		}
-				    		getInfo(gene_val, "#add-links");
+				    		$("#add-links").append(info_tab_header);
+						getInfo(gene_val, "#add-links");
 						
 					}
 					}
@@ -298,6 +316,7 @@ a {
 			}		
 		});
 		
+		//action for Multiple Maps tab
 		$("#submit_gene_list").click(function(){
 			
 			$("#multiple-PDF-save-btn, #multiple-ZIP-save-btn").prop( "disabled", true );
@@ -313,7 +332,7 @@ a {
 			else {
 				$('.picture').hide();
 				$("#multiple-pic").show();
-				$("#add-links").html("");
+				$("#add-links").html(info_tab_header);
 				$("#multiple-result-text").html('Your job is running. Please, wait.');
 				if ($("#simple-color-list").val() == null){
 					colora = $("#colorA-list").val();
@@ -368,18 +387,15 @@ a {
 				if (is_adult == false)
 					odd = 0;
 				var string = "";
+				//check progress of multiple_maps.php for progress-bar and shows preview of ready pictures
 				function getProgress(){
 					$.ajax({
 						url: "bin/progress.php",
 						success: function(data){
 							if (data > $("#progressbar").val()) {
 								if (odd==0){
-									if (dataset_conf[7] == "zfs") {
-										string = "<input type='checkbox' name='preview-id' id='preview-"+genes_list[c]+"' value='"+genes_list[c]+"_embr'></input><label for='preview-"+genes_list[c]+"'> "+genes_list[c]+"</label>";
-									} else {
-										string = " <input type='checkbox' name='preview-id' id='preview-"+genes_list[c]+"' value='"+genes_list[c]+"_embr'></input>";
-									}
-									string += "<img class='preview-img' src='sessions/"+session+"/"+genes_list[c]+"_embr.svg?dummy="+makeid(5)+"'/>";
+									string = "<div class='preview-div'><img class='preview-img' src='sessions/"+session+"/"+genes_list[c]+"_embr.svg?dummy="+makeid(5)+"'/><br>";
+									string += "<input type='checkbox' name='preview-id' id='preview-"+genes_list[c]+"' value='"+genes_list[c]+"_embr'></input><label for='preview-"+genes_list[c]+"'> "+genes_list[c]+"</label></div>";
 									odd = 1;
 									if (is_adult == false){
 										odd = 0;
@@ -390,7 +406,7 @@ a {
 								} else {
 									if (odd==1){
 										getInfo(genes_list[c], "#add-links");
-										string = "<input type='checkbox' name='preview-id' id='preview-"+genes_list[c]+"' value='"+genes_list[c]+"'></input><label for='preview-"+genes_list[c]+"'> "+genes_list[c]+"</label> <img class='preview-img' src='sessions/"+session+"/"+genes_list[c]+".svg?dummy="+makeid(5)+"'/>";
+										string = "<div class='preview-div'><img class='preview-img' src='sessions/"+session+"/"+genes_list[c]+".svg?dummy="+makeid(5)+"'/><br><input type='checkbox' name='preview-id' id='preview-"+genes_list[c]+"' value='"+genes_list[c]+"'></input><label for='preview-"+genes_list[c]+"'> "+genes_list[c]+"</label></div>";
 										$("#preview").append(string);
 										string = ""
 										odd = 0;
@@ -416,6 +432,7 @@ a {
 			}		
 		});
 		
+		//action for Compare Expression tab
 		$("#submit-comp").click(function(){
 			
 			if (!$("#bin-comp").val()) {
@@ -473,6 +490,7 @@ a {
 				    		$("#compare-SVG-save-btn, #compare-PDF-save-btn").prop( "disabled", false );
 				    		$("#compare-SVG-save").attr("href", "sessions/".concat(session).concat("/").concat(pic_name).concat(".svg"));
 				    		$("#compare-PDF-save").attr("href", "sessions/".concat(session).concat("/").concat(pic_name).concat(".pdf"));
+				    		$("#add-links").append(info_tab_header);
 				    		getInfo(gene_valA, "#add-links");
 				    		getInfo(gene_valB, "#add-links");
 						
@@ -481,29 +499,23 @@ a {
 				});
 			}
 		});
-
-		$("#bin").keyup(checkbin());
-		$("#bin").on('blur', checkbin());
-		$("#bin_list").keyup(checkbin());
-		$("#bin_list").on('blur', checkbin());
 		
-		$("#add_color").click(function(){
+		//checks input fields
+		$("#bin, #bin_list, #bin-comp").keyup(checkbin());
+		$("#bin, #bin_list, #bin-comp").on('blur', checkbin());
+		
+		//shows or hides field for second color
+		$("#add_color, #add_color-list").click(function(){
 			$(this).hide(500);
-			$("#colorB").val("E8E8E8");
-			$("#second_color").show(500);
-			$("#colorB").trigger("focus");
-			$("#colorB").trigger("blur");
-		});
-		$("#add_color-list").click(function(){
-			$(this).hide(500);
-			$("#colorB-list").val("E8E8E8");
-			$("#second_color-list").show(500);
-			$("#colorB-list").trigger("focus");
-			$("#colorB-list").trigger("blur");
+			var tab = $(this).attr("for");
+			$("#colorB"+tab).val("E8E8E8");
+			$("#second_color"+tab).show(500);
+			$("#colorB"+tab).trigger("focus");
+			$("#colorB"+tab).trigger("blur");
 		});
 		
+		//changes current tab (Single, Multiple, etc.)
 		$('ul.mod-links li').click(function() {
-			
 			var tab_id = $(this).attr('data-tab');
 			var pic_id = $(this).attr('pic-tab');
 			
@@ -516,6 +528,7 @@ a {
 			$("#"+pic_id).show();
 		});
 		
+		//shows pop-up with ID list
 		$("#id-list-view").click(function(){
 			$("#popup-window").html("");
 			$(".pop-up-window h2").html("ID list");
@@ -534,6 +547,7 @@ a {
 				}
 			}		
 		});
+		//shows pop-up with ID list
 		$(".eye-btn").click(function(){
 			var ID = $(this).attr('for');
 			$("#popup-window").html("");
@@ -548,21 +562,24 @@ a {
 				}
 			}
 		});
+		//shows pop-up with preprocessing results
 		$("#preproc-result-view").click(function() {
 			$("#popup-window").load("datasets/".concat(dataset).concat("/result_pr.txt"));
 			$(".pop-up-window h2").html("Preprocessing results");
 			$("#popup-container").show();
 		});
+		//closes pop-up (X-button)
 		$(".pop-up-window a").click(function(e){
 			e.preventDefault();
 			$("#popup-container").hide();
 		});
+		//closes pop-up (click on outside area)
 		$("#popup-container").bind('click', function(event){
 			if (event.target == $('#popup-container').get(0))
 			$("#popup-container").hide();
 		});
 		
-		
+		//shows or hides advanced color settings
 		function ShowTriangle(tab){				
 				$("#show-triangle"+tab).hide();
 				$("#hide-triangle"+tab).show();
@@ -589,7 +606,7 @@ a {
 			HideTriangle(tab);
 		});
 		
-		
+		//disables 'put labels' option while developmental stages isn't included
 		$("#ext-embr, #ext-embr-list, #ext-embr-comp").change(function(){
 			var from = $(this).attr('from');
 			if ($(this).prop("checked") == false) {
@@ -602,6 +619,7 @@ a {
 
 	});
 	
+	//selects ID from pop-up
 	$(document).on('click', '#popup-window :checkbox', function() {
 		$checks = $(":checkbox[name='id-select']");
 		var string = $checks.filter(":checked").map(function(i,v){
@@ -618,17 +636,22 @@ a {
 			$("#gene").val(string);
 		}
 	});
+	
+	//shows SVG in pop-up
 	$(document).on('click', '.preview-img', function() {
 		var string = "<object data="+$(this).attr('src')+" type='image/svg+xml'></object>";
 		$(".pop-up-window h2").html("Expression map");
 		$("#popup-window").html(string);
 		$("#popup-container").show();
 	});
+	//selects all or deselects all
 	$(document).on('click',  function() {
 		$("#preview-all").change(function(){
 			$("input[name='preview-id']").prop('checked', $(this).prop("checked"));
 		});
 	});
+	
+	//generates PDF or ZIP files for downloading
 	$(document).on('click', "#multiple-PDF-save-btn, #multiple-ZIP-save-btn", function() {
 		$checks = $("input[name='preview-id']:checked");
 		if ($checks.length == 0) {
@@ -718,15 +741,15 @@ a {
 		<div id="contentwrapper">
 		<div id="contentcolumn">
 		<div hidden class="picture" id="simple-pic">
-			<p id="simple-result-text">YAZ is waiting for your query</p>
+			<p id="simple-result-text">COMICS is waiting for your query</p>
 			<object id="result-pic" data="" width="95%" type="image/svg+xml"></object><br>
 			<a href="" download id="simple-SVG-save"><button id="simple-SVG-save-btn" from="" >Save SVG</button></a><a href="" target=_"blank" id="simple-PDF-save"><button id="simple-PDF-save-btn" from="" >Save PDF</button></a><br>
-			<object id="result-pic-embr" data="" width="60%" type="image/svg+xml" style="min-width: 550px"></object><br>
+			<object id="result-pic-embr" data="" width="60%" type="image/svg+xml" style="min-width: 550px" hidden></object><br>
 			<a href="" download id="simple-SVG-save-embr"><button id="simple-SVG-save-btn-embr" from="-embr" hidden>Save SVG</button></a><a href="" target=_"blank" id="simple-PDF-save-embr"><button id="simple-PDF-save-btn-embr" from="-embr" hidden>Save PDF</button></a>
 		</div>
 		
 		<div hidden class="picture" id="multiple-pic">
-			<p id="multiple-result-text">YAZ is waiting for your query</p>
+			<p id="multiple-result-text">COMICS is waiting for your query</p>
 			<p><progress id="progressbar" value="0" max="100"></progress><label id="bar-text"></label></p>
 			<div id="preview"></div>
 			<a href="" target="_blank" id="multiple-PDF-save"></a><button id="multiple-PDF-save-btn" disabled>Save PDF</button>
@@ -734,7 +757,7 @@ a {
 		</div>
 		
 		<div hidden class="picture" id="compare-pic">
-			<p id="compare-result-text">YAZ is waiting for your query</p>
+			<p id="compare-result-text">COMICS is waiting for your query</p>
 			<object id="compare-result-pic" data="" width="95%" type="image/svg+xml"></object>
 			<a href="" download id="compare-SVG-save"><button id="compare-SVG-save-btn" disabled>Save SVG</button></a><a href="" target="_blank" id="compare-PDF-save"><button id="compare-PDF-save-btn" disabled>Save PDF</button></a>
 		</div>
@@ -773,7 +796,7 @@ a {
 				Or set your own colors <span id="show-triangle" class="triangle" tab="">&#9662;</span><span hidden class="triangle" id="hide-triangle" tab="">&#9652;</span>
 					<div id="advanced-colors" hidden>
 					<input type="text" id="colorC" value="#AE1C28" class="jscolor {backgroundColor:'#666'}"> <Br>
-					<span id="add_color" class="add-color">+</span>
+					<span id="add_color" class="add-color" for="">+</span>
 					<span id="second_color" hidden="true"><input type="text" id="colorB" value="" class="jscolor {backgroundColor:'#666'}"> <Br></span>
 					<input type="text" id="colorA" value="#21468B" class="jscolor {backgroundColor:'#666'}"> <Br>
 					</div>
@@ -869,7 +892,7 @@ a {
 				Or set your own colors <span id="show-triangle-list" class="triangle" tab="-list">&#9662;</span><span hidden class="triangle" id="hide-triangle-list" tab="-list">&#9652;</span>
 					<div id="advanced-colors-list" hidden>
 					<input type="text" id="colorC-list" value="#AE1C28" class="jscolor {backgroundColor:'#666'}"> <Br>
-					<span id="add_color-list" class="add-color">+</span>
+					<span id="add_color-list" class="add-color" for="-list">+</span>
 					<span id="second_color-list" hidden="true"><input type="text" id="colorB-list" value="" class="jscolor {backgroundColor:'#666'}"> <Br></span>
 					<input type="text" id="colorA-list" value="#21468B" class="jscolor {backgroundColor:'#666'}"> <Br>
 					</div>
