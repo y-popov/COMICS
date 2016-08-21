@@ -4,7 +4,6 @@ html, body{
 	font-family: Helvetica, serif;
 	font-size:17px;
 	color:#000;
-	<!--background:url(https://decem.info/wp-content/uploads/mnogo-marihuany.jpeg);-->
 	background: #fff;
 }
 body{
@@ -493,4 +492,42 @@ button {
 .entrez {
 	width: 93.328px;
 	display: inline-block;
+}
+
+#how-to {
+	list-style-type: none;
+	display: inline-block;
+	border: 2px #117FC7 solid;
+	border-radius: 20px;
+	padding-right: 20px;
+	background-color: rgb(237,248,255);
+	
+}
+#how-to a {
+	text-decoration: none;
+	color: #00549f;
+}
+#how-to li{
+	padding: 15px 25px;
+	padding-right: 50px;
+	border-radius: 10px;
+}
+#how-to li:hover {
+	cursor: pointer;
+	background: #B1DCF8;
+}
+.help-header {
+	color: #00549f;
+	margin-top: 50px;
+}
+
+.warning {
+	background-color: #ffffcc;
+	border-left: 6px solid #ffeb3b;
+	padding: 16px;
+}
+.message {
+	background-color: #d9edf7;;
+	border-left: 6px solid #AED3E5;
+	padding: 16px;
 }

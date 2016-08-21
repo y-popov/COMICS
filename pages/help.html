@@ -9,6 +9,14 @@
 <meta name="viewport" content="width=640">
 <meta name=viewport content="width=device-width, initial-scale=1">
 
+<style>
+pre {
+	background-color: white;
+	border: 1px grey solid;
+	padding: 20px;
+}
+</style>
+
 </head>
 <body  link = "#736D6D" vlink = "#000000" alink = "#30ABE9">
 <div id="wrapper_b">
@@ -29,8 +37,92 @@
 		</div>
 
 		<div id="content">
-			<p > COMICS is a tool for visualisation of protein expression data acquired from <a href="http://chemdata.nist.gov/dokuwiki/doku.php?id=peptidew:lib:zebrafish20150109">NIST Library of Peptide Tandem Mass Spectra</a> for model organism (currently Zebrafish (<i>Danio rerio</i>) and Carp (<i>Cyprinus carpio</i>) are available). To get the expression map you should upload your dataset (or select one from predefined datasets), then simply enter the UniProt ID of the gene/protein of interest and specify some parameters of picture.</p>
-
+			
+			<ul id="how-to">
+				<a href="#upload"><li>How to upload my dataset</li></a>
+				<a href="#use"><li>How to use or delete already uploaded dataset</li></a>
+				<a href="#interface"><li>Description of tool interface</li></a>
+				<a href="#single"><li>How to get an expression map for single ID</li></a>
+				<a href="#multiple"><li>How to get an expression map for a list of IDs</li></a>
+				<a href="#compare"><li>How to get a map of expression difference between two IDs</li></a>
+				
+			</ul>
+			<h3 class='help-header' id="upload">How to upload my dataset</h3>
+			<p>
+				Click on the "UPLOAD A NEW DATASET" button on the main page. Below you will see a form for dataset uploading.
+			</p>
+			<p>
+				In the first field you can browse ".tsv", ".xls" or ".xlsx" file with your dataset. This dataset must be Tab-separated (for ".tsv"-file) and be in format like:
+			</p>
+			<pre>ID	ID_1	ID_2	ID_3	ID_4	ID_5
+ZFA_0005145	67	6	66	0	0
+ZFA_0001076	890	77	34	1	90
+ZFA_0000368	78	6	245	700	8
+ZFA_0000403	56	7	0.2	890	0.4
+ZFA_0000436	6	89	0	510	56</pre>
+			<p>or:</p>
+			<pre>ZFA_0000008	ZFA_0000107	ZFA_0000123	ZFA_0000403	ZFA_0000598
+ID_1	400	11	12	0,2	0,5
+ID_2	0,67	3	2	50	55
+ID_3	43	56	523	0	0
+ID_4	677	56	5	0,07	34
+ID_5	123	567	580	1123	345</pre>
+			<p>
+				<b>ZFA</b> stands for ZebraFish Anatomy ontology CV-term. You can use ZFS (ZebraFish developmental Stage) as well. <a href="https://www.ebi.ac.uk/ols/ontologies/zfa" terget="_blank">Ontology Lookup Service</a> should help you to correspond particular tissue or developmantal stage name with ZFA or ZFS ID, respectively.
+			</p>
+			<p class="warning">
+				There is no unique carp <i>(Cyprinus carpio)</i> Anatomy and Developmental stages Ontology, therefore we use Zebrafish Anatomy ontology for carp as well, since these species have no dramatic differencies in anatomy.
+			</p>
+			<p>
+				Instead of browsing the file, if you check "paste your TSV-formatted data in a text-box", you will be able to paste your data in the same format into text-box, becoming visible under the checkbox. It might be usefull for small datasets.
+			</p> 
+			<p>
+				The other fields describe attributes of uploading dataset and their functions are obvious.
+			</p>
+			<p class="message">
+				Note! All fields are necessary to be filled. If you miss one or make a mistake you will see an alert message.
+			</p>
+			<p>
+				As soon as you press "Submit" button, tool starts preprocessing your dataset. It may take from 15 sec to several minutes, depending on your dataset size. During this operation tool maps ZFAs and ZFSs of your dataset to such ones that tool can visualize.  
+			</p>
+			<p>
+				Since preprocessing is done you will see a message, offering you to start your <a href="#interface">dataset visualization</a> ("Yes") or to stay on the current page ("No") to upload another dataset or to <a href="#use">use</a> previously uploaded dataset.
+			</p>
+			
+			<h3 class='help-header' id="use">How to use or delete already uploaded dataset</h3>
+			<p>
+				Click on the "USE DATASET" button on the main page. Below you will see fields to select dataset or to delete dataset.
+			</p>
+			<p>
+				To select dataset for visualisation simply select its name from select-box. You also may select predefined datasets from this select-box. Then press "Submit" button to proceed to the analysis.
+			</p>
+			<p>
+				To delete dataset from tool select its name from select-box and press "Submit" button. So far you won't be able to use this dataset anymore.
+			</p>
+			<h3 class='help-header' id="interface">Description of tool interface</h3>
+			<p>
+				
+			</p>
+			<h3 class='help-header' id="single">How to get an expression map for single ID</h3>
+			<p>
+				Select your dataset first. Click on "Single map" tab. To select ID of interest just simply type ID in the text-field or click on "eye"-button in "ID" field and choose needed ID from pop-up. Then specify options described in <a href="#interface">"Description of tool interface"</a>. 
+			</p>
+			
+			<h3 class='help-header' id="multiple">How to get an expression map for a list of IDs</h3>
+			<p>
+				Select your dataset first. Click on "Multiple maps" tab. Type a list of IDs in "List of IDs" field or click on "View" button of "The list of all protein IDs available" and check IDs from pop-up. 
+			</p>
+			<p class="warning">
+				Note! Each ID in list of IDs field must be on its own line.
+			</p>
+			<p>
+				Then specify options described in <a href="#interface">"Description of tool interface"</a>. 
+			</p>
+			
+			<h3 class='help-header' id="compare">How to get a map of expression difference between two IDs</h3>
+			<p>
+				Select your dataset first. Click on "Compare expression" tab. Select two IDs that you want to compare. To select ID of interest just simply type ID in the text-field or click on "eye"-button in "ID *" field and choose needed ID from pop-up. Then specify options described in <a href="#interface">"Description of tool interface"</a>. 
+			</p>
 		
 		</div>
 
