@@ -1,3 +1,2 @@
-../datasets/2016-Aug-10-645 Q90XR8
-Q6P0E1
-O42363 FFFFFF NONE 000000 10 ident LOG ../sessions/mysession/ false yes true
+../datasets/2016-Aug-10-645 O42363
+P79734 00D8D8 NONE D801D8 10 ident LOG ../sessions/mysession/ true yes true

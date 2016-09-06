@@ -132,6 +132,10 @@ button {
 	cursor: pointer;
 }
 
+.add-color-inner {
+	-webkit-padding-before: 3px;
+}
+
 #content {
 	margin: 20px;
 }
@@ -419,12 +423,12 @@ button {
 }
 .eye {
 	vertical-align: middle;
-	padding-bottom: 4px;
-	
+	padding-bottom: 3px;
 }
 .eye-btn {
 	vertical-align: top;
 	padding: 0px;
+	line-height: 1.35;
 }
 .link-div {
 	border: 3px solid #BBCBE8;
