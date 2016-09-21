@@ -31,10 +31,11 @@ button {
 	padding:0 0 5px;
 }
 #lable_b{
-	width:100%;
+	
 	height:80px;
 	float: left;
 	margin: 10px;
+	float: right;
 }	
 
 .nav{
@@ -75,9 +76,9 @@ button {
 	margin:8px auto;
 	width:90%;
 	text-align: left;
-	min-height:280px;
-	background: url(../figures/comics.png) ;
-	background-size: cover;
+	min-height:285px;
+	background: url(../figures/comics.png) no-repeat;
+	background-size: contain;
 	width: 100%;
 	height: 100%;
 }
@@ -95,11 +96,15 @@ button {
 .modes {
 	text-transform: uppercase;
 	text-decoration: none;
-	background: #4EA39A;
-
+	background: #4EA39A ; 
+	height: 90px;
+	
 }
 .modes ul {
 	padding-bottom: 5px;
+	position: absolute;
+	margin-top: 35px;
+	min-width: 800px;
 }
 .modes li {
 	display: inline;
@@ -141,12 +146,14 @@ button {
 }
 #dataset-info {
 	background: #F4F1F7;
+	border-radius: 10px;
 	margin-bottom: 20px;
 	padding: 0 10px;
 	padding-bottom: 5px;
 	border: 2px solid #dcd2e6;
 }
 .info-cell {
+	border-radius: 10px;
 	display: inline-block;
 	background: #dcd2e6;
 	padding: 15px;
@@ -157,19 +164,24 @@ button {
 	color: #6d5188;
 	margin-top: 0px;
 	font-weight: bold;
+	margin-bottom: 0px;
 }
 #dataset-info span{
 	
 }
+.info-list {
+	display: inline-block;
+	margin: 0px 30px 15px 10px;
+}
+
 .mod_content{
 	border-radius: 10px;
 	width:225px;
-	border: 1px solid #708090;
+	border: 2px solid #708090;
 	display: none;
 }
 .mod_content.current{
 
-	border: 1px solid #708090;
 	display: block;
 }
 .mod-body {
@@ -430,6 +442,26 @@ button {
 	padding: 0px;
 	line-height: 1.35;
 }
+
+input[type=radio][name=id-select] {
+	display: none;
+}
+.id-label {
+	margin-left: 4px;
+}
+.id-label:hover {
+	background: #B9CAE8;
+	border-radius: 2px;
+	padding: 4px;
+	margin-left: 0px;
+}
+.id-label.activeid {
+	background: #B9CAE8;
+	border-radius: 2px;
+	padding: 4px;
+	margin-left: 0px;
+}
+
 .link-div {
 	border: 3px solid #BBCBE8;
 	padding: 7px;

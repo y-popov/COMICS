@@ -244,6 +244,7 @@ a {
 				$("#simple-pic").show();
 				$("#add-links").html("");
 				$("#simple-result-text").html('Your job is running. Please, wait.');
+				$("#simple-PDF-save-btn, #simple-SVG-save-btn").prop( "disabled", false );
 				
 				if ($("#simple-color").val() == null){
 					colora = $("#colorA").val();
@@ -557,7 +558,7 @@ a {
 			var lines = $(data.toString().split(/\n/));
 			for (var i=0, len=lines.length; i<len; i++) {
 				if (lines[i] != ""){
-					lines[i] = "<input type='radio' from='eye' for='"+ID+"' name='id-select' id='"+lines[i]+"'> </input> <label for='"+lines[i]+"'>"+lines[i]+"</label><br>";
+					lines[i] = "<input type='radio' from='eye' for='"+ID+"' name='id-select' id='"+lines[i]+"'> </input> <label class='id-label' for='"+lines[i]+"'>"+lines[i]+"</label><br>";
 					$("#popup-window").append(lines[i]);
 				}
 			}
@@ -635,6 +636,10 @@ a {
 		} else {
 			$("#gene").val(string);
 		}
+	});
+	$(document).on('click', '#popup-window .id-label', function() {
+		$(".id-label").removeClass("activeid");
+		$(this).addClass("activeid");
 	});
 	
 	//shows SVG in pop-up
@@ -728,13 +733,14 @@ a {
 			<div class="info-cell"><p>Sex:</p><span id="gender">not loaded</span></div>
 			<div class="info-cell"><p>Stages:</p><span id="embr">not loaded</span></div>
 			<div class="info-cell"><p>ID type:</p><span id="id-type">not loaded</span></div>
-			<div id="prot_list">
-				<p>The list of all protein IDs available:
-				<button type="button" id="id-list-view">View</button><a download href="" id="id-list"><button type="button">Save</button></a></p>
+			<div></div>
+			<div id="prot_list" class="info-list">
+				<button type="button" id="id-list-view">View</button><a download href="" id="id-list"><button type="button">Save</button></a> <label> all gene/protein IDs available
+				</label>
 			</div>
-			<div id="preproc_result">
-				<p>The list of ZFA correspondence:
-				<button type="button" id="preproc-result-view">View</button><a download href="" id="preproc"><button type="button">Save</button></a></p>
+			<div id="preproc_result" class="info-list">
+				<button type="button" id="preproc-result-view">View</button><a download href="" id="preproc"><button type="button">Save</button></a><label> corresponding ZFA classes
+				</label>
 			</div>
 		</div>
 		
@@ -743,7 +749,7 @@ a {
 		<div hidden class="picture" id="simple-pic">
 			<p id="simple-result-text">COMICS is waiting for your query</p>
 			<object id="result-pic" data="" width="95%" type="image/svg+xml"></object><br>
-			<a href="" download id="simple-SVG-save"><button id="simple-SVG-save-btn" from="" >Save SVG</button></a><a href="" target=_"blank" id="simple-PDF-save"><button id="simple-PDF-save-btn" from="" >Save PDF</button></a><br>
+			<a href="" download id="simple-SVG-save"><button id="simple-SVG-save-btn" from="" disabled>Save SVG</button></a><a href="" target=_"blank" id="simple-PDF-save"><button id="simple-PDF-save-btn" from="" disabled>Save PDF</button></a><br>
 			<object id="result-pic-embr" data="" width="60%" type="image/svg+xml" style="min-width: 550px" hidden></object><br>
 			<a href="" download id="simple-SVG-save-embr"><button id="simple-SVG-save-btn-embr" from="-embr" hidden>Save SVG</button></a><a href="" target=_"blank" id="simple-PDF-save-embr"><button id="simple-PDF-save-btn-embr" from="-embr" hidden>Save PDF</button></a>
 		</div>
@@ -763,7 +769,7 @@ a {
 		</div>
 		
 		<div class="picture" id="intro-pic">
-			<p> You can fill in the protein ID - we will show the protein expression map</p>
+			<p> You can fill in the gene/protein ID - we will show its expression map</p>
 			<object id="result_fish" data="figures/carp_temp.png" width="95%" type="image/png"></object>
 		</div>
 		</div>
@@ -771,7 +777,7 @@ a {
 		
 		<div id="genech_outter">	
 		<div id="Single" class="mod_content current">
-			<div class='boxhead'>Single protein map</div>
+			<div class='boxhead'>Single expression map</div>
 			<div class="mod-body">
 			<form name="test" method="post" target="_self" action="">
 				
@@ -781,9 +787,8 @@ a {
 				</label></div>
 
 
-				<div class="tool-option"><b>Colors for gradient:</b> <a class="help-ico"><img src="figures/help.png" title="Specify two or three colors for the gradient"></a><Br>
-				Select one of predefined color schemes: <br>
-					<div id="simple-colors">
+				<div class="tool-option"><b>Color scheme:</b> <a class="help-ico"><img src="figures/help.png" title="Specify two or three colors for the gradient"></a><Br>
+					<div id="simple-colors" style="margin-top:5px;">
 						<select id="simple-color" tab="">
 							<option disabled selected value="default">Select color scheme</option>
 							<option colorA="D801D8" colorB="NONE" colorC="00D8D8">magenta-cyan</option>
@@ -793,7 +798,7 @@ a {
 						</select>
 					</div>
 					<br>
-				Or set your own colors <span id="show-triangle" class="triangle" tab="">&#9662;</span><span hidden class="triangle" id="hide-triangle" tab="">&#9652;</span>
+				Custom colors <span id="show-triangle" class="triangle" tab="">&#9662;</span><span hidden class="triangle" id="hide-triangle" tab="">&#9652;</span>
 					<div id="advanced-colors" hidden>
 					<input type="text" id="colorC" value="#AE1C28" class="jscolor {backgroundColor:'#666'}"> <Br>
 					<div id="add_color" class="add-color" for=""><div class='add-color-inner'>+</div></div>
@@ -835,9 +840,8 @@ a {
 				<div class="tool-option"><b>ID 2:</b><br>
 					<input type="text" name="gene2" id="gene2" size = "16"><button type="button" title="Select ID from list" class="eye-btn" for="gene2"><img src="figures/eye_icon.png" height="12px" width="23px" class="eye" ></button><br>
 				</div>
-				<div class="tool-option"><b>Colors for gradient:</b> <a class="help-ico"><img src="figures/help.png" title="Specify two colors for the gradient, white will be in the center"></a><Br>
-				Select one of predefined color schemes: <br>
-					<div id="simple-colors">
+				<div class="tool-option"><b>Color scheme:</b> <a class="help-ico"><img src="figures/help.png" title="Specify two colors for the gradient, white will be in the center"></a><Br>
+					<div id="simple-colors" style="margin-top:5px;">
 						<select id="simple-color-comp" tab="-comp">
 							<option disabled selected value="default">Select color scheme</option>
 							<option colorA="D801D8" colorC="00D8D8">magenta-cyan</option>
@@ -846,7 +850,7 @@ a {
 						</select>
 					</div>
 					<br>
-				Or set your own colors <span id="show-triangle-comp" class="triangle" tab="-comp">&#9662;</span><span hidden class="triangle" id="hide-triangle-comp" tab="-comp">&#9652;</span>
+				Custom colors <span id="show-triangle-comp" class="triangle" tab="-comp">&#9662;</span><span hidden class="triangle" id="hide-triangle-comp" tab="-comp">&#9652;</span>
 					<div id="advanced-colors-comp" hidden>
 					<input type="text" id="colorC-comp" value="#AE1C28" class="jscolor {backgroundColor:'#666'}"> <Br>
 					
@@ -877,9 +881,8 @@ a {
 				<div class="tool-option"><b>List of IDs:</b> <a class="help-ico"><img src="figures/help.png" title="Type protein IDs as in the input table's row header. New line for each ID"></a>
 					<textarea id="gene_list" name="gene_list" cols="22" rows= "10" ></textarea>
 				</div>	
-				<div class="tool-option"><b>Colors for gradient:</b> <a class="help-ico"><img src="figures/help.png" title="Specify two or three colors for the gradient"></a><Br>
-				Select one of predefined color schemes: <br>
-					<div id="simple-colors-list">
+				<div class="tool-option"><b>Color scheme:</b> <a class="help-ico"><img src="figures/help.png" title="Specify two or three colors for the gradient"></a><Br>
+					<div id="simple-colors-list" style="margin-top:5px;">
 						<select id="simple-color-list" tab="-list">
 							<option disabled selected value="default">Select color scheme</option>
 							<option colorA="D801D8" colorB="NONE" colorC="00D8D8">magenta-cyan</option>
@@ -889,7 +892,7 @@ a {
 						</select>
 					</div>
 					<br>
-				Or set your own colors <span id="show-triangle-list" class="triangle" tab="-list">&#9662;</span><span hidden class="triangle" id="hide-triangle-list" tab="-list">&#9652;</span>
+				Custom colors <span id="show-triangle-list" class="triangle" tab="-list">&#9662;</span><span hidden class="triangle" id="hide-triangle-list" tab="-list">&#9652;</span>
 					<div id="advanced-colors-list" hidden>
 					<input type="text" id="colorC-list" value="#AE1C28" class="jscolor {backgroundColor:'#666'}"> <Br>
 					<span id="add_color-list" class="add-color" for="-list">+</span>
@@ -926,7 +929,7 @@ a {
 		</div>
 		
 		<div id="ad-info">
-			<h2>Additional information:</h2>
+			<!--<h2>Additional information:</h2>-->
 			<div id="add-links">Process some ID first
 			</div>
 		</div>

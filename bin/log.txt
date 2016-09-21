@@ -1,2 +1,1 @@
-../datasets/2016-Aug-10-645 O42363
-P79734 00D8D8 NONE D801D8 10 ident LOG ../sessions/mysession/ true yes true
+../datasets/zf A0JMM8 00D8D8 NONE D801D8 10 unique LOG ../sessions/mysession/ no false yes
