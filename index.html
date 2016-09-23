@@ -115,6 +115,9 @@ a {
 			var filename = $("input[name='data']")[0].files[0].name.toLowerCase();
 			if (filename.match(".tsv$") || filename.match(".xls$") || filename.match(".xlsx$")) {
 				$("#file-option").css("border", "2px solid green");
+				if (!$("input[name='data-name']").val()) {
+					$("input[name='data-name']").val(filename.substr(0, filename.lastIndexOf('.')))
+				}
 			} else {
 				$("#file-option").css("border", "2px solid #D80000");
 			}
@@ -252,9 +255,7 @@ a {
 
 		<div id="content">
 		
-			<p id="intro">This incredible tool provides you an unique opportunity to visualize protein and gene expression in spatial context for Zebrafish <i>(Danio rerio)</i> or Carp (<i>Cyprinus carpio</i>).</p>
-			<p id="intro"> COMICS is a tool for visualisation of protein expression data acquired from <a href="http://chemdata.nist.gov/dokuwiki/doku.php?id=peptidew:lib:zebrafish20150109">NIST Library of Peptide Tandem Mass Spectra</a> for model organisms (currently Zebrafish (<i>Danio rerio</i>) and Carp (<i>Cyprinus carpio</i>) are available). To get the expression map you should upload your dataset (or select one from predefined datasets), then simply enter the UniProt ID of the gene/protein of interest and specify some parameters of picture.</p>
-			
+			<p id="intro">COMICS integrates and visualizes anatomically resolved omics data using anatomical ontologies. It currently supports visualization protein and gene expression in spatial context for Zebrafish (Danio rerio) and Carp (Cyprinus carpio). Mouse will be supported in the near future.</p>		
 
 		
 	
@@ -282,7 +283,7 @@ a {
 		<form id="upload_form" name="upload_form" method="post" enctype="multipart/form-data" action="">
 			<div class="option" id="file-option">
 				<span class="option-item"><input name="data" type="file" accept=".tsv,.xls,.xlsx" onchange="handleFiles(this.files)"></span>
-				<p class="descr">Select TSV (file with Tab Separated Values) or Excel table. Values for each ZFA should be by rows, values for each gene/protein should be by columns, or vice versa. You can have a look at examples of <a class="example-link" href="datasets/example.tsv" download>TSV-file</a> or <a class="example-link" href="datasets/example.xlsx" download>Excel-file</a></p>
+				<p class="descr">Select a TSV (tab-separated values) or an Excel file with one ZFA class per row and expression values for one gene or protein per column. See examples in <a class="example-link" href="datasets/example.tsv" download>TSV</a> or <a class="example-link" href="datasets/example.xlsx" download>Excel</a>.</p>
 				<br>
 				<span class="option-item" style="margin: 0px 18px"></span>
 				<span class="descr"><input id="data-by-text" type="checkbox" ><label for="data-by-text"> or paste your TSV-formatted data in a text-box</label></span>
@@ -293,7 +294,7 @@ a {
 				<span class="option-item"><input type="radio" name="fish" value="carp" id="fish-carp"><label for="fish-carp"> Carp <i>(Cyprinus carpio)</i></label><br>
 				<input type="radio" name="fish" value="ZF" id="fish-ZF"><label for="fish-ZF"> Zebrafish <i>(Danio rerio)</i></label><br>
 				<input type="radio" name="fish" value="mouse" disabled id="fish-mouse"><label for="fish-mouse"> Mouse <i>(Mus musculus)</i></label></span>
-				<p class="descr">Select the species which dataset you are uploading</p>
+				<p class="descr">Select the species for visualization</p>
 			</div>
 			
 			<div class="option" id="prot-id-option">
@@ -311,7 +312,7 @@ a {
 			
 			<div class="option" id="data-name-option">
 				<span class="option-item" ><input size="19" name="data-name" type="text"></span>
-				<p class="descr">Specify dataset name. Further you will be able to select your dataset using this name</p>
+				<p class="descr">Name of the dataset (default = filename)</p>
 			</div>
 				<button id="upload_data" class="submit_options"  type="button" value="Submit">Upload dataset</button>
 		</form>

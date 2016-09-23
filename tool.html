@@ -259,6 +259,11 @@ a {
 					colora = $("#simple-color option:selected").attr('colorC');
 				}
 				var gene_val = $.trim($("#gene").val());
+				var grad;
+				if ( $("#grad-single:checked").val() == 'true')
+					grad = "ident";
+				else
+					grad = "unique"
 				is_embr = $("#ext-embr:checked").val();
 				$.ajax({
 					url: "bin/single_map.php",
@@ -271,7 +276,7 @@ a {
 						colorC: colorc,
 						bins: $("#bin").val(),
 						scale: $("input[name='scale']:checked").val(),
-						gradient: $("input[name='gradient']:checked").val(),
+						gradient: grad,
 						data_folder: "../datasets/".concat(dataset),
 						session_folder: session,
 						brain: $("#ext-brain:checked").val(),
@@ -351,6 +356,11 @@ a {
 				var genes_list = $.trim($("#gene_list").val()).split(/\n/);
 				$("#submit_gene_list").prop( "disabled", true );
 				is_embr = $("#ext-embr-list:checked").val();
+				var grad;
+				if ( $("#grad-list:checked").val() == 'true')
+					grad = "ident";
+				else
+					grad = "unique"
 				$.post("bin/multiple_maps.php",
 				{
 					genes: $("#gene_list").val(),
@@ -359,7 +369,7 @@ a {
 					colorC: colorc,
 					bins: $("#bin_list").val(),
 					scale: $("input[name='scale_list']:checked").val(),
-					gradient: $("input[name='gradient_list']:checked").val(),
+					gradient: grad,
 					data_folder: "../datasets/".concat(dataset),
 					session_folder: session,
 					brain: $("#ext-brain-list:checked").val(),
@@ -777,13 +787,13 @@ a {
 		
 		<div id="genech_outter">	
 		<div id="Single" class="mod_content current">
-			<div class='boxhead'>Single expression map</div>
+			<div class='boxhead'>Single map</div>
 			<div class="mod-body">
 			<form name="test" method="post" target="_self" action="">
 				
 
 				<div class="tool-option"><label id="param"><b>ID:</b> <a class="help-ico"><img src="figures/help.png" title="Type one of the protein IDs as in the input table's row header"></a><br>
-					<input id="gene" name="gene" type="text" size = "16" ><button type="button" title="Select ID from list" class="eye-btn" for="gene"><img src="figures/eye_icon.png" height="12px" width="23px" class="eye" ></button>
+					<input id="gene" name="gene" type="text" size = "16" style="line-height: 25px;"><button  type="button" title="Select ID from list" class="eye-btn" for="gene"><img src="figures/choose-from-list-cursor-icon.png" height="30px" width="30px" class="eye" ></button>
 				</label></div>
 
 
@@ -806,18 +816,17 @@ a {
 					<input type="text" id="colorA" value="#21468B" class="jscolor {backgroundColor:'#666'}"> <Br>
 					</div>
 				</div> 
-				<div class="tool-option">Unified gradient for: <a class="help-ico"><img src="figures/help.png" title="You can choose between the uniform gradient for all proteins present in the table and the unique gradient based on maximum and minimum values for each protein."></a><br>
-					<input type="radio" name="gradient" value="ident" id="grad-single1"><label for="grad-single1"> all proteins</label><br>
-					<input type="radio" name="gradient" value="unique" id="grad-single2" checked><label for="grad-single2"> each protein</label><br>
-				</div>
 				<div class="tool-option">Bins (5-100):
 					<input type="text" id="bin" size=4 value=10> <a class="help-ico"><img src="figures/help.png" title="To specify the number of bins for the gradient scale type the number between 5 and 100. "></a>
 				</div>
-				<div class="tool-option">Scale to be used:<br>
-					<input type="radio" name="scale" value="LOG" id="scale-single1" checked><label for="scale-single1"> Log-scale</label><br>
+				<div class="tool-option">
+					<input type="checkbox" name="gradient" id="grad-single" value="true" ><label for="grad-single"> Use same gradient for all records</label> <a class="help-ico"><img src="figures/help.png" title="This option will make uniform gradient for all IDs present in the dataset"></a><br>
+				</div>
+				<div class="tool-option">
+					<input type="radio" name="scale" value="LOG" id="scale-single1" checked><label for="scale-single1"> Log scale</label><br>
 					<input type="radio" name="scale" value="LINE" id="scale-single2"><label for="scale-single2"> Linear scale</label><br>
 				</div>
-				<div class="tool-option brain-option">Brain:<br>
+				<div class="tool-option brain-option">
 					<input type="checkbox" name="ext-brain" id="ext-brain" value="yes" ><label for="ext-brain"> Extended brain picture</label><br>
 				</div>
 				<div class="tool-option embr-option">Developmental stages:<br>
@@ -860,7 +869,7 @@ a {
 				<div class="tool-option">Bins (5-100):
 					<input type="text" id="bin-comp" size=4 value=10> <a class="help-ico"><img src="figures/help.png" title="To specify the number of bins for the gradient scale type the odd number between 5 and 100. "></a>
 				</div>
-				<div class="tool-option brain-option">Brain:<br>
+				<div class="tool-option brain-option">
 					<input type="checkbox" name="ext-brain" id="ext-brain-comp" value="yes" ><label for="ext-brain-comp"> Extended brain picture</label><br>
 				</div>
 				<div class="tool-option embr-option">Developmental stages:<br>
@@ -899,19 +908,19 @@ a {
 					<span id="second_color-list" hidden="true"><input type="text" id="colorB-list" value="" class="jscolor {backgroundColor:'#666'}"> <Br></span>
 					<input type="text" id="colorA-list" value="#21468B" class="jscolor {backgroundColor:'#666'}"> <Br>
 					</div>
-				</div>  
-				<div class="tool-option">Unified gradient for: <a class="help-ico"><img src="figures/help.png" title="You can choose between the uniform gradient for all proteins present in the table and the unique gradient based on maximum and minimum values for each protein."></a><br>
-					<input type="radio" name="gradient_list" value="ident" id="grad-mult1" checked><label for="grad-mult1"> all proteins</label><br>
-					<input type="radio" name="gradient_list" value="unique" id="grad-mult2"><label for="grad-mult2"> each protein</label><br>
-				</div>
+				</div> 
 				<div class="tool-option">Bins (5-100):
 					<input type="text" id="bin_list" size=4 value=10> <a class="help-ico"><img src="figures/help.png" title="To specify the number of bins for the gradient scale type the number between 5 and 100. "></a>
+				</div> 
+				<div class="tool-option">
+					<input checked type="checkbox" name="gradient" id="grad-list" value="true" ><label for="grad-list"> Use same gradient for all records</label> <a class="help-ico"><img src="figures/help.png" title="This option will make uniform gradient for all IDs present in the dataset"></a><br>
+					
 				</div>
-				<div class="tool-option">Scale to be used:<br>
-					<input type="radio" name="scale_list" value="LOG" checked id="scale-mult1"><label for="scale-mult1"> Log-scale</label><br>
+				<div class="tool-option">
+					<input type="radio" name="scale_list" value="LOG" checked id="scale-mult1"><label for="scale-mult1"> Log scale</label><br>
 					<input type="radio" name="scale_list" value="LINE" id="scale-mult2"><label for="scale-mult2"> Linear scale</label><br>
 				</div>
-				<div class="tool-option brain-option">Brain:<br>
+				<div class="tool-option brain-option">
 					<input type="checkbox" name="ext-brain-list" id="ext-brain-list" value="yes" ><label for="ext-brain-list"> Extended brain picture</label><br>
 				</div>
 				<div class="tool-option embr-option">Developmental stages:<br>
