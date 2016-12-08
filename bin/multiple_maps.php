@@ -60,7 +60,7 @@ foreach ($gene_list as $i)
 		$result = strpos($contents, $j); 
 		if ($result !== false){
 			if ($adult == "true"){
-				session_start();
+				
 				$r_cmd = "Rscript superscript.r $data_folder $j $colorA $colorB $colorC $n_bins $gradient $scale $session_folder $brain";
 				exec($r_cmd);
 				$c = $c+1;
@@ -68,11 +68,12 @@ foreach ($gene_list as $i)
 				if ($embr == "true"){
 					$total = ($c+$c_embr)/2;
 				}
+				session_start();
 				$_SESSION["progress"]=round(100*$total/$gene_list_leng);
 				session_write_close();
 			}
 			if ($embr == "true"){
-				session_start();
+				
 				$r_cmd_embr = "Rscript embr.r $data_folder $j $colorA $colorB $colorC $n_bins $gradient $scale $session_folder $labs";
 				exec($r_cmd_embr);
 				$c_embr = $c_embr+1;
@@ -80,6 +81,7 @@ foreach ($gene_list as $i)
 				if ($adult == "false"){
 					$total = $c_embr;
 				}
+				session_start();
 				$_SESSION["progress"]=round(100*$total/$gene_list_leng);
 				session_write_close();
 			}

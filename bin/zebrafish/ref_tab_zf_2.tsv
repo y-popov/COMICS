@@ -13,7 +13,7 @@
 "12"	"ZFA_0000368"	"integument"	77
 "13"	"ZFA_0000123"	"liver"	99
 "14"	"ZFA_0000436"	"spleen"	34
-"15"	"ZFA_0009309"	"leukocyte"	97
+"15"	"ZFA_0000636"	"cerebellar crest"	111
 "16"	"ZFA_0000208"	"gall bladder"	200
 "17"	"ZFA_0000079"	"telencephalon"	101
 "18"	"ZFA_0000445"	"optic tectum"	102
@@ -46,3 +46,7 @@
 "45"	"ZFA_0009049"	"mature neutrophil"	503
 "46"	"ZFA_0009250"	"lymphocyte"	505
 "47"	"ZFA_0001609"	"pharyngeal arch 6"	9
+"48"	"ZFA_0001662"	"preglomerular nucleus"	115
+"49"	"ZFA_0000294"	"torus lateralis"	116
+"50"	"ZFA_0000634"	"caudal hypothalamic zone"	118
+"51"	"ZFA_0000165 "	"inferior lobe"	119

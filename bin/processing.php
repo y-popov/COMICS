@@ -51,7 +51,8 @@ if (file_exists($target_file)) {
 	$dataset_name = $_POST["data_name"];
 	file_put_contents("../datasets.txt", "\n<option value='$target_place'>$dataset_name</option>", FILE_APPEND);
 	$dataset_name = str_replace(" ", "\ ", $_POST["data_name"]);
-	$r_cmd = "Rscript preprocessing.r $species $imageFileType $target_dir $prot_id $dataset_name > log.txt";
+	$r_cmd = "Rscript preprocessing.r $species $imageFileType $target_dir $prot_id $dataset_name >> log.txt";
+	exec("echo $r_cmd > log.txt");
 	exec($r_cmd);
 	#sleep(5);
 	unlink($target_file);

@@ -283,7 +283,8 @@ a {
 		<form id="upload_form" name="upload_form" method="post" enctype="multipart/form-data" action="">
 			<div class="option" id="file-option">
 				<span class="option-item"><input name="data" type="file" accept=".tsv,.xls,.xlsx" onchange="handleFiles(this.files)"></span>
-				<p class="descr">Select a TSV (tab-separated values) or an Excel file with one ZFA class per row and expression values for one gene or protein per column. See examples in <a class="example-link" href="datasets/example.tsv" download>TSV</a> or <a class="example-link" href="datasets/example.xlsx" download>Excel</a>.</p>
+				<p class="descr">Select a TSV (tab-separated values) or an Excel file with one ZFA (MA) class per row and expression values for one gene or protein per column. See examples in <a class="example-link" href="datasets/example.tsv" download>TSV</a> or <a class="example-link" href="datasets/example.xlsx" download>Excel</a>.<BR><br>
+				Please, use <a class="external-link" href="https://www.ebi.ac.uk/ols/ontologies/zfa" target="_blank">Ontology Lookup Service</a> and <a class="external-link" href="http://www.informatics.jax.org/searches/AMA_form.shtml" target="_blank">Adult Mouse Anatomy Ontology</a> to correspond tissue name and its CV-term ID.</p>
 				<br>
 				<span class="option-item" style="margin: 0px 18px"></span>
 				<span class="descr"><input id="data-by-text" type="checkbox" ><label for="data-by-text"> or paste your TSV-formatted data in a text-box</label></span>

@@ -73,7 +73,7 @@ a {
 	});
 	
 	//header from info table
-	var info_tab_header = "<div class='link-div'><div class='link-id'>ID</div><div class='link-gene'>Gene name</div><div class='link-names'>Protein name</div> <div class='uniprot'><a target='_blank' href='http://www.uniprot.org/'><img class='link-img' src='figures/uniprot_logo.gif'></a></div> <div class='zfin' style='text-align:center'><a target='_blank' href='http://zfin.org/'><img class='link-img' src='figures/zfin.png'></a></div> <div class='entrez'><a target='_blank' href='http://www.ncbi.nlm.nih.gov/gene/'><img class='link-img' src='figures/ncbi.png'></a></div></div>"
+	var info_tab_header = "<div class='link-div'><div class='link-id'>ID</div><div class='link-gene'>Gene name</div><div class='link-names'>Protein name</div> <div class='uniprot'><a target='_blank' href='http://www.uniprot.org/'><img class='link-img' src='figures/uniprot_logo.gif'></a></div> <div class='zfin' style='text-align:center'><a target='_blank' href='http://zfin.org/'><img class='link-img' src='figures/zfin.png'></a></div> <div class='entrez'><a target='_blank' href='http://www.ncbi.nlm.nih.gov/gene/'><img class='link-img' src='figures/ncbi.png'></a></div></div>";
 	
 	$(document).ready(function(){	
 		$.ajaxSetup({ cache: false });
@@ -88,9 +88,22 @@ a {
 			dataset_conf = response.split('\n');
 			if (dataset_conf[1] == "ZF"){
 				$("#species").html("Zebrafish <i>(Danio rerio)</i>");
-			} else if (dataset_conf[1] == "carp"){
-				$("#species").html("Carp <i>(Cyprinus carpio)</i>");
+				$("#result_fish").attr('data', 'figures/zf_temp.png');
+			} else {
+				info_tab_header = info_tab_header.replace("<div class='zfin' style='text-align:center'><a target='_blank' href='http://zfin.org/'><img class='link-img' src='figures/zfin.png'></a></div>", "");
 			}
+			if (dataset_conf[1] == "carp"){
+				$("#species").html("Carp <i>(Cyprinus carpio)</i>");
+				$("#result_fish").attr('data', 'figures/carp_temp.png');
+			} else if (dataset_conf[1] == "mouse"){
+				$("#species").html("Mouse <i>(Mus musculus)</i>");
+				$("#result_fish").attr('data', 'figures/mouse_temp.png');
+			}
+			
+			if (dataset_conf[3] == "smallbrain") {
+				$(".brain-option").hide();
+			}
+			
 			if (dataset_conf[4] == "male"){
 				$("#gender").html("Male");
 			} else if (dataset_conf[4] == "female"){
@@ -176,24 +189,28 @@ a {
 					}
 				});
 				
-				if (!(zfinID)) {
-					$.ajax({
-						url: "http://www.uniprot.org/mapping/", 
-						data:
-						{
-							from: 'ACC+ID',
-							to: 'ZFIN_ID',
-							format: 'tab',
-							query: uniprotID
-						},
-						success: function(data){
-							zfinID = data.split('\n')[1].split('\t')[1];
-						},
-						complete: function(){
-							comp2 = true;
-							comp1 && comp2 && comp3 && writeInfo();
-						}
-					});
+				if (dataset_conf[1] == "ZF"){
+					if (!(zfinID)) {
+						$.ajax({
+							url: "http://www.uniprot.org/mapping/", 
+							data:
+							{
+								from: 'ACC+ID',
+								to: 'ZFIN_ID',
+								format: 'tab',
+								query: uniprotID
+							},
+							success: function(data){
+								zfinID = data.split('\n')[1].split('\t')[1];
+							},
+							complete: function(){
+								comp2 = true;
+								comp1 && comp2 && comp3 && writeInfo();
+							}
+						});
+					}
+				} else {
+					comp2 = true;
 				}
 				if (!(entrezID)) {
 					$.ajax({
@@ -297,7 +314,7 @@ a {
 						$("#add-links").html("No info");
 						alert(data);
 					} else {
-						$("#simple-result-text").html("Your job has been completed successfully!");
+						$("#simple-result-text").html("");
 				    		if (is_embr) {
 							$("#result-pic-embr").show();
 				    			$("#result-pic-embr").attr("data", "sessions/".concat(session).concat("/").concat(gene_val).concat("_embr.svg"));
@@ -385,7 +402,7 @@ a {
 						$("#add-links").html("No info");
 						alert(data);
 					} else {
-						$("#multiple-result-text").html("Your job has been completed successfully!");
+						$("#multiple-result-text").html("");
 				    		
 				    		$("#multiple-PDF-save").attr("href", "sessions/".concat(session).concat("/output.pdf"));
 				    		$("#multiple-ZIP-save").attr("href", "sessions/".concat(session).concat("/output.zip"));
@@ -495,7 +512,7 @@ a {
 						$("#add-links").html("No info");
 						alert(data);
 					} else {
-						$("#compare-result-text").html("Your job has been completed successfully!");
+						$("#compare-result-text").html("");
 						var pic_name = gene_valA+"_"+gene_valB;
 				    		$("#compare-result-pic").attr("data", "sessions/".concat(session).concat("/").concat(pic_name).concat(".svg"));
 				    		$("#compare-SVG-save-btn, #compare-PDF-save-btn").prop( "disabled", false );
@@ -749,7 +766,7 @@ a {
 				</label>
 			</div>
 			<div id="preproc_result" class="info-list">
-				<button type="button" id="preproc-result-view">View</button><a download href="" id="preproc"><button type="button">Save</button></a><label> corresponding ZFA classes
+				<button type="button" id="preproc-result-view">View</button><a download href="" id="preproc"><button type="button">Save</button></a><label> corresponding ontology classes
 				</label>
 			</div>
 		</div>
@@ -780,7 +797,7 @@ a {
 		
 		<div class="picture" id="intro-pic">
 			<p> You can fill in the gene/protein ID - we will show its expression map</p>
-			<object id="result_fish" data="figures/carp_temp.png" width="95%" type="image/png"></object>
+			<object id="result_fish" data="figures/temp.png" width="95%" type="image/png"></object>
 		</div>
 		</div>
 		</div>
@@ -823,7 +840,8 @@ a {
 					<input type="checkbox" name="gradient" id="grad-single" value="true" ><label for="grad-single"> Use same gradient for all records</label> <a class="help-ico"><img src="figures/help.png" title="This option will make uniform gradient for all IDs present in the dataset"></a><br>
 				</div>
 				<div class="tool-option">
-					<input type="radio" name="scale" value="LOG" id="scale-single1" checked><label for="scale-single1"> Log scale</label><br>
+					<input type="radio" name="scale" value="LOG" id="scale-single1" checked><label for="scale-single1"> Log10 scale</label><br>
+					<input type="radio" name="scale" value="LOG2" id="scale-single3"><label for="scale-single3"> Log2 scale</label><br>
 					<input type="radio" name="scale" value="LINE" id="scale-single2"><label for="scale-single2"> Linear scale</label><br>
 				</div>
 				<div class="tool-option brain-option">
@@ -844,10 +862,11 @@ a {
 			<div class="mod-body">
 			<form name="test_2" method="post" target="_self" action="">
 				<div class="tool-option"><b>ID 1:</b><br>
-					<input type="text" name="gene1" id="gene1" size = "16"><button type="button" title="Select ID from list" class="eye-btn" for="gene1"><img src="figures/eye_icon.png" height="12px" width="23px" class="eye" ></button><br>
+					<input type="text" name="gene1" id="gene1" size = "16"><button type="button" title="Select ID from list" class="eye-btn" for="gene1"><img src="figures/choose-from-list-cursor-icon.png" height="30px" width="30px" class="eye" ></button><br>
 				</div>
 				<div class="tool-option"><b>ID 2:</b><br>
-					<input type="text" name="gene2" id="gene2" size = "16"><button type="button" title="Select ID from list" class="eye-btn" for="gene2"><img src="figures/eye_icon.png" height="12px" width="23px" class="eye" ></button><br>
+					<input type="text" name="gene2" id="gene2" size = "16"><button type="button" title="Select ID from list" class="eye-btn" for="gene2"><img src="figures/choose-from-list-cursor-icon.png" height="30px" width="30px" class="eye" ></button><br>
+					<!--figures/eye_icon.png" height="12px" width="23px"-->
 				</div>
 				<div class="tool-option"><b>Color scheme:</b> <a class="help-ico"><img src="figures/help.png" title="Specify two colors for the gradient, white will be in the center"></a><Br>
 					<div id="simple-colors" style="margin-top:5px;">
@@ -917,7 +936,8 @@ a {
 					
 				</div>
 				<div class="tool-option">
-					<input type="radio" name="scale_list" value="LOG" checked id="scale-mult1"><label for="scale-mult1"> Log scale</label><br>
+					<input type="radio" name="scale_list" value="LOG" checked id="scale-mult1"><label for="scale-mult1"> Log10 scale</label><br>
+					<input type="radio" name="scale_list" value="LOG2" id="scale-mult3"><label for="scale-mult3"> Log2 scale</label><br>
 					<input type="radio" name="scale_list" value="LINE" id="scale-mult2"><label for="scale-mult2"> Linear scale</label><br>
 				</div>
 				<div class="tool-option brain-option">
@@ -939,7 +959,7 @@ a {
 		
 		<div id="ad-info">
 			<!--<h2>Additional information:</h2>-->
-			<div id="add-links">Process some ID first
+			<div id="add-links" >
 			</div>
 		</div>
 

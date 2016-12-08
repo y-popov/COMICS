@@ -1,0 +1,46 @@
+"ontology"	"ZF.name"	"index"
+"1"	"MA:0000358"	"liver"	28
+"2"	"MA:0000281"	"nose"	7
+"3"	"MA:0000141"	"spleen"	11
+"4"	"MA:0001655"	"left kidney"	31
+"5"	"MA:0000426"	"right lung"	62
+"6"	"MA:0000120"	"pancreas"	29
+"7"	"MA:0000261"	"eye"	4
+"8"	"MA:0000275"	"lens"	5
+"9"	"MA:0000338"	"duodenum"	49
+"10"	"MA:0000134"	"bone marrow"	666
+"11"	"MA:0000074"	"heart left atrium"	35
+"12"	"MA:0000075"	"heart right atrium"	34
+"13"	"MA:0000092"	"heart left ventricle"	45
+"14"	"MA:0000093"	"heart right ventricle"	46
+"15"	"MA:0000352"	"esophagus"	27
+"16"	"MA:0000441"	"trachea"	250
+"17"	"MA:0000258"	"outer ear"	6
+"18"	"MA:0000353"	"stomach"	10
+"19"	"MA:0001704"	"left ovary"	48
+"20"	"MA:0001705"	"right ovary"	47
+"21"	"MA:0000170"	"forebrain"	8
+"22"	"MA:0000216"	"spinal cord"	9
+"23"	"MA:0000354"	"bile duct"	13
+"24"	"MA:0000475"	"arch of aorta"	15
+"25"	"MA:0000425"	"left lung"	21
+"26"	"MA:0000347"	"tongue"	20
+"27"	"MA:0000198"	"cerebellum"	23
+"28"	"MA:0001683"	"right kidney"	32
+"29"	"MA:0001904"	"diaphragm"	33
+"30"	"MA:0000389"	"uterus"	36	
+"31"	"MA:0000380"	"urinary bladder"	37
+"32"	"MA:0000378"	"ureter"	39
+"33"	"MA:0000339"	"ileum"	52
+"34"	"MA:0000340"	"jejunum"	51
+"35"	"MA:0000335"	"colon"	53
+"36"	"MA:0000385"	"oviduct"	55
+"37"	"MA:0000336"	"rectum"	57
+"38"	"MA:0000411"	"testis"	58
+"39"	"MA:0001459"	"bone"	44	
+"40"	"MA:0000057"	"brown adipose tissue"	666
+"41"	"MA:0000129"	"thyroid gland"	59
+"42"	"MA:0000151"	"skin"	666
+"43"	"MA:0003148"	"skeletal muscle"	61
+"44"	"MA:0000334"	"cecum"	60
+"45"	"MA:0000205"	"myelencephalon"	30

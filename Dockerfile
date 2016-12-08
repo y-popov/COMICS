@@ -7,6 +7,7 @@ RUN apt-get update && apt-get -y upgrade && DEBIAN_FRONTEND=noninteractive apt-g
     curl lynx-cur \
     zip \
     less \
+    nano \
     inkscape \
     libcanberra-gtk-module \
     poppler-utils \

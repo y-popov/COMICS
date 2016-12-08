@@ -1,10 +1,10 @@
 #Creates a single picture for the given gene-ID, for the list of them is run several times
-#Author: D.Travin 2016/08/12
+#Author: D.Travin 2016/11/03
 
 rm(list=ls())
 file.remove("Rplots.pdf")
 setwd("./")
-#setwd("D:/YAZ_project/3_2016_Summer/workspace")
+# setwd("D:/YAZ_project/3_2016_Summer/workspace")
 
 library(grid)
 library(maps)
@@ -33,7 +33,7 @@ scale <- toString(args[8])      #LOG\LOG2 or LINE
 session <- toString(args[9]) 
 adv_br <- toString(args[10])    #advanced brain: yes or no
 
-#place <- './dataset_try/'
+# place <- './dataset_mouse/'
 
 config <- readLines(paste(place,'/data.conf',sep=''))
 dataset_name <- config[1]
@@ -42,14 +42,14 @@ IDtype <- config[3]
 brain_sort <- config[4]
 gender <- config[5]
 
-#gene_ID <- 'A7YYE3'
-# gene_ID <- 'cypCar_00013291.RA'
-#color1='green'
-#color2='yellow'
-#color3='orange'
-#nbins=100
-#grad='unique'
-#scale <- 'LINE'
+# gene_ID <- 'P16858'
+# # gene_ID <- 'cypCar_00013291.RA'
+# color1='green'
+# color2='yellow'
+# color3='orange'
+# nbins=100
+# grad='unique'
+# scale <- 'LOG'
 
 #============================================Import of data for visualisation==============================================================
 if(adv_br=='yes'){
@@ -151,6 +151,9 @@ if(species=='ZF'){
       }
     }
   }
+}else if(species=='mouse'){
+  ref_table=read.table('./mouse/ref_tab_mouse.tsv', sep='\t', header=TRUE, na.strings=c(' '))
+  map <-  readShapePoly(fn = './mouse/m1.shp')    #import of the shapefile
 }
 
 in_table=read.table(paste(place,'/outuser.tsv',sep=''), header=TRUE, row.names=1, check.names=FALSE)
@@ -233,26 +236,25 @@ for(i in 1:length(expre)){
 
 if (scale=='LOG'){
   exp1=c((log10(min_val)-abs(log10(min_val)*0.05)),(log10(max_val)+abs(log10(max_val)*0.05)))
-  y=exp1[1]-exp1[2]
+  y=abs(exp1[2]-exp1[1])
   for(i in 1:nbins){
     exp1=c(exp1,(log10(min_val)-abs(log10(min_val)*0.05))+(i*y/nbins))
   }
 }else if(scale=='LOG2'){
   exp1=c((log2(min_val)-abs(log2(min_val)*0.05)),(log2(max_val)+abs(log2(max_val)*0.05)))
-  y=exp1[1]-exp1[2]
+  y=abs(exp1[2]-exp1[1])
   for(i in 1:nbins){
     exp1=c(exp1,(log2(min_val)-abs(log2(min_val)*0.05))+(i*y/nbins))
   }
 }else if(scale=='LINE'){
 	exp1=c((min_val-min_val*0.05),(max_val+max_val*0.05))
-	y=exp1[1]-exp1[2]
+	y=abs(exp1[2]-exp1[1])
 	for(i in 1:nbins){
 		exp1=c(exp1,(min_val-min_val*0.05)+(i*y/nbins))
 	}
 }
 
 int1 <- classIntervals(exp1, nbins, style='equal')
-
 if(color2=='#NONE'){
 	my_palette <- colorRampPalette(c(color1,color3))(n = nbins)
 }else{
@@ -260,6 +262,7 @@ if(color2=='#NONE'){
 	my_palette <- colorRampPalette(c(color1,color2,color3))(n = nbins)
 }
 
+ontoDB_site <- "https://www.ebi.ac.uk/ols/ontologies/zfa/terms?iri=http://purl.obolibrary.org/obo/"
 if(species=='ZF'){
   if(adv_br=='yes'){
     dev.new(width=10.40, height=5.25)
@@ -280,6 +283,9 @@ if(species=='ZF'){
      dev.new(width=10.58, height=5.84)
     }
   }
+}else if(species=='mouse'){
+  dev.new(width=11.43, height=6.5)
+  ontoDB_site <- "http://www.informatics.jax.org/searches/AMA.cgi?id="
 }
 
 p <- spplot(map['expre'],
@@ -300,7 +306,7 @@ for (id in unique(IDsf)){
   dat <- map1[which(mapaID==i),]
   info <- paste(dat$name,  dat$CV, round(as.numeric(dat$expre),3), sep=' : ')
   g <- grid.get(id)
-  grid.garnish(id,onmouseover=paste("showTooltip(evt, '", info, "')"),onmouseout="hideTooltip()", onclick=paste("window.open('https://www.ebi.ac.uk/ols/ontologies/zfa/terms?iri=http://purl.obolibrary.org/obo/",dat$CV,"')",sep=""))
+  grid.garnish(id,onmouseover=paste("showTooltip(evt, '", info, "')"),onmouseout="hideTooltip()", onclick=paste("window.open('",ontoDB_site,dat$CV,"')",sep=""))
 }
 
 grid.script(filename="../../bin/tooltip.js")

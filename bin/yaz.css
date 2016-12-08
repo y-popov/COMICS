@@ -324,6 +324,10 @@ button {
 	border-bottom: 1px dashed #000080;
 	color: #21468B;
 }
+.external-link {
+	text-decoration: underline;
+	color: #444;
+}
 .options {
 	display: none;
 	

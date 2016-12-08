@@ -146,7 +146,11 @@ if(species=='ZF'){
       }
     }
   }
+}else if(species=='mouse'){
+  ref_table=read.table('./mouse/ref_tab_mouse.tsv', sep='\t', header=TRUE, na.strings=c(' '))
+  map <-  readShapePoly(fn = './mouse/m1.shp')
 }
+
 in_table=read.table(paste(place,'/outuser.tsv',sep=''), header=TRUE, row.names=1)
 
 #============================================Preparation part==============================================================================
@@ -257,6 +261,8 @@ if(species=='ZF'){
       dev.new(width=10.58, height=5.84)
     }
   }
+}else if(species=='mouse'){
+  dev.new(width=11.43, height=6.8)
 }
 
 p <- spplot(map['expre'],
