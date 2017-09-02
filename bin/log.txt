@@ -1,1 +1,1 @@
-../datasets/mouse P11499 00D8D8 NONE D801D8 10 unique LOG ../sessions/mysession/ no false yes
+../datasets/carp cypCar_00038482.RA 00D8D8 NONE D801D8 10 unique LOG ../sessions/mysession/ no false yes

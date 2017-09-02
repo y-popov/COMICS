@@ -1,4 +1,5 @@
 <option disabled selected value="">Select dataset</option>
-<option value="carp">Predefined carp data</option>
-<option value="zf">Predefined zebrafish data</option>
+<option value="carp">Predefined carp transcriptomics</option>
+<option value="zf">Predefined zebrafish proteomics</option>
+<option value="counts">Predefined zebrafish counts</option>
 <option value="mouse">Predefined mouse data</option>

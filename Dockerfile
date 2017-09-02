@@ -1,5 +1,5 @@
 FROM ubuntu:latest
-MAINTAINER Yaroslav Popov <syav.popoff@yandex.ru>
+MAINTAINER Iaroslav Popov <syav.popoff@yandex.ru>
 
 RUN apt-get update && apt-get -y upgrade && DEBIAN_FRONTEND=noninteractive apt-get -y install \
     apache2 \ 

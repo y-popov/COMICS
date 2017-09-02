@@ -1,25 +1,26 @@
-#Author: D.Travin 2017/08/25
+#Author: D.Travin 2016/10/21
 
 rm(list=ls())
-setwd("./")
-#setwd("D:/COMICS_project/3_2016_Summer (COMICS)/workspace")
+#setwd("./")
+#setwd("D:/YAZ_project/3_2016_Summer/workspace")
+ptm <- proc.time()
 
 library(xlsx)
 library(ontoCAT)
 library(stringr)
 
-args <-commandArgs(TRUE)
-species <- toString(args[1])        #ZF,mouse or carp
-form <- toString(args[2])           #xls/xlsx/tsv
-place <- toString(args[3])
-IDtype <- toString(args[4])         #Uniprot/ZFIN/etc.
-dataset_name <- toString(args[5])
+ args <-commandArgs(TRUE)
+ species <- toString(args[1])        #ZF or carp
+ form <- toString(args[2])           #xls/xlsx/tsv
+ place <- toString(args[3])    
+ IDtype <- toString(args[4])         #Uniprot/ZFIN/ etc.
+ dataset_name <- toString(args[5])
 
-# species<-'ZF'
-# form<-'tsv'
-# place<-'D:/COMICS_project/3_2016_Summer (COMICS)/workspace/dataset_ZF_prepr_try/'
-# dataset_name<-'dataset_try'
-# IDtype <- 'UniProt'
+#species<-'mouse'
+#form<-'xlsx'
+#place<-'D:/YAZ_project/3_2016_Summer/workspace/dataset_mouse/'
+#dataset_name<-'datasetMagnus'
+#IDtype <- 'ZFIN'
 
 #=================================== Input of the table and list of IDs =============================================================
 if(form=='tsv'){
@@ -31,36 +32,36 @@ if(form=='tsv'){
 }
 
 if(species=='mouse'){
-  if((grepl(pattern='[Mm][Aa][://._]', names(inuser)[1])==TRUE)){
+  if((grepl(pattern='[Mm][Aa][://._]', names(inuser)[1])==TRUE)|(grepl(pattern='[Mm][Aa][://._]', names(inuser)[1])==TRUE)){
     inuser=as.data.frame(t(inuser))
   }
   for(i in 1:nrow(inuser)){                                         #replace all other variants with "_"
     substr(row.names(inuser)[i], 3,3)<-'_'
   }
-  res <- readLines("./hash_tables/MA_MS/smart_mouse.txt")
+  res <- readLines("./mouse/smart_mouse.txt")
   smart = lapply(as.list(res[2:length(res)]), function(i){if(i=="") NULL else unlist(strsplit(i, " "))})
   names(smart) = strsplit(res[1], " ")[[1]]
   ontol=getOntology('./ontol/ma.obo')
   
-  gender<-both
-  sort_brain<-small
-  zfa_zfs<-zfa
-  
+  gender<-'both'
+  sort_brain<-'small'
+  zfs_zfa<-'zfa'
 }else if(species=='ZF'|species=='carp'){
   
-  if((grepl(pattern='[Zz][Ff][AaSs][://._]', names(inuser)[1])==TRUE)){
+  if((grepl(pattern='[Zz][Ff][AaSs][://._]', names(inuser)[1])==TRUE)|(grepl(pattern='[Mm][Aa][://._]', names(inuser)[1])==TRUE)){
     inuser=as.data.frame(t(inuser))
   }
   for(i in 1:nrow(inuser)){                                         #replace all other variants with "_"
     substr(row.names(inuser)[i], 4,4)<-'_'
   }
-  res <- readLines("./hash_tables/ZFA_ZFS/smart_ZF.txt")
+  res <- readLines("./zebrafish/smart_ZF.txt")
   smart = lapply(as.list(res[2:length(res)]), function(i){if(i=="") NULL else unlist(strsplit(i, " "))})
   names(smart) = strsplit(res[1], " ")[[1]]
   ontol=getOntology('./ontol/zfa.obo.txt')
   
   zfs <- 'no'
   zfa <- 'no'
+  zfs_zfa <- 'no'
   
   if(TRUE %in% (grepl(pattern='[Zz][Ff][Aa][_]', row.names(inuser))==TRUE)==TRUE){
     zfa <- 'yes'
@@ -114,15 +115,13 @@ if(species=='mouse'){
     i=i+1
   }
   
-  gender<-'none'
-  
   if(gender_f & gender_m == TRUE){                  #decide which gender(f/m/both/none) to draw
     gender <- 'both'
   }else if((gender_f==TRUE)&(gender_m==FALSE)){
     gender <- 'female'
   }else if((gender_f==FALSE)&(gender_m==TRUE)){
     gender <- 'male'
-  }else if((gender_f==FALSE)&(gender_m==FALSE)){
+  }else if(gender_f & gender_m == FALSE){
     gender <- 'none'
   }
 }
@@ -207,10 +206,9 @@ for(i in 1:nrow(fake)){
 
 max_val=max(outtable[,1:ncol(fake)])
 
-
-#================================================ Create configuration file for dataset ============================================
 conffile=paste(place,'data.conf', sep='')
 
+#================================================ Create configuration file for dataset ============================================
 write(dataset_name, conffile, append=TRUE)
 write(species, conffile, append=TRUE)
 write(IDtype, conffile, append=TRUE)

@@ -153,7 +153,7 @@ if(species=='ZF'){
   }
 }else if(species=='mouse'){
   ref_table=read.table('./mouse/ref_tab_mouse.tsv', sep='\t', header=TRUE, na.strings=c(' '))
-  map <-  readShapePoly(fn = './mouse/m1.shp')    #import of the shapefile
+  map <-  readShapePoly(fn = './mouse/mouse.shp')    #import of the shapefile
 }
 
 in_table=read.table(paste(place,'/outuser.tsv',sep=''), header=TRUE, row.names=1, check.names=FALSE)
@@ -162,8 +162,8 @@ in_table=read.table(paste(place,'/outuser.tsv',sep=''), header=TRUE, row.names=1
 for(i in 1:ncol(in_table)){                   #search for the gene in in_table
   if(toString(gene_ID)==names(in_table)[i]){
     h<-i
+    break
   }
-  i=i+1
 }
 
 if(grad=='ident'){
@@ -172,12 +172,11 @@ if(grad=='ident'){
 }
 
 if(grad=='unique'){
-  min_val=max(in_table[,1:ncol(in_table)])    
+  min_val=as.numeric(config[7]) #max(in_table[,1:ncol(in_table)])    
   for(i in 1:nrow(in_table)){
     if((min_val>in_table[i,h]) & (in_table[i,h]!=0)){
       min_val=in_table[i,h]
     }
-    i=i+1
   }
   max_val=max(in_table[1:nrow(in_table),h])
 }
@@ -233,6 +232,7 @@ for(i in 1:length(expre)){
     j<-j+1
   }
 }
+
 
 if (scale=='LOG'){
   exp1=c((log10(min_val)-abs(log10(min_val)*0.05)),(log10(max_val)+abs(log10(max_val)*0.05)))
@@ -306,7 +306,12 @@ for (id in unique(IDsf)){
   dat <- map1[which(mapaID==i),]
   info <- paste(dat$name,  dat$CV, round(as.numeric(dat$expre),3), sep=' : ')
   g <- grid.get(id)
-  grid.garnish(id,onmouseover=paste("showTooltip(evt, '", info, "')"),onmouseout="hideTooltip()", onclick=paste("window.open('",ontoDB_site,dat$CV,"')",sep=""))
+  if (grepl("MA", dat$CV)==T){
+  	CV_ID = gsub("_", ":", dat$CV)
+  } else {
+  	CV_ID = dat$CV
+  }
+  grid.garnish(id,onmouseover=paste("showTooltip(evt, '", info, "')"),onmouseout="hideTooltip()", onclick=paste("window.open('",ontoDB_site,CV_ID,"')",sep=""))
 }
 
 grid.script(filename="../../bin/tooltip.js")

@@ -24,8 +24,8 @@ if ($brain == "")
 	{$brain = "no";}
 if ($embr == "")
 	{$embr = "false";}
-if ($embr_lab == "")
-	{$embr_lab = "no";}
+if ($labs == "")
+	{$labs = "no";}
 
 test("$data_folder $name_gene $colorA $colorB $colorC $n_bins $gradient $scale $session_folder $brain $embr $labs");
 

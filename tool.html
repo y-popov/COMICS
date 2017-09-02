@@ -89,8 +89,9 @@ a {
 			if (dataset_conf[1] == "ZF"){
 				$("#species").html("Zebrafish <i>(Danio rerio)</i>");
 				$("#result_fish").attr('data', 'figures/zf_temp.png');
-			} else {
-				info_tab_header = info_tab_header.replace("<div class='zfin' style='text-align:center'><a target='_blank' href='http://zfin.org/'><img class='link-img' src='figures/zfin.png'></a></div>", "");
+			} else
+				if (dataset_conf[1] != "carp") {
+					info_tab_header = info_tab_header.replace("<div class='zfin' style='text-align:center'><a target='_blank' href='http://zfin.org/'><img class='link-img' src='figures/zfin.png'></a></div>", "");
 			}
 			if (dataset_conf[1] == "carp"){
 				$("#species").html("Carp <i>(Cyprinus carpio)</i>");
@@ -189,7 +190,7 @@ a {
 					}
 				});
 				
-				if (dataset_conf[1] == "ZF"){
+				if (dataset_conf[1] == "ZF" || dataset_conf[1] == "carp"){
 					if (!(zfinID)) {
 						$.ajax({
 							url: "http://www.uniprot.org/mapping/", 
@@ -987,7 +988,7 @@ a {
 			</ul>
 		</div>
 		
-		<p>&copy; Summer School in Bioinformatics, Leiden 2015-2016</p>
+		<p>&copy; Summer School in Bioinformatics, Leiden 2015-2017</p>
 		<div id="site">
 			<table align="center">
 			<tr><td><a href="http://en.fbb.msu.ru/" target="_blank"><img src="figures/msu.gif" height=70px width=70px></a></td>

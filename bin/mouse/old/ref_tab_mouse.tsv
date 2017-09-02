@@ -4,9 +4,9 @@
 "3"	"MA_0000141"	"spleen"	11
 "4"	"MA_0001655"	"left kidney"	31
 "5"	"MA_0000426"	"right lung"	62
-"6"	"MA_0000120"	"pancreas"	145
-"7"	"MA_0000261"	"eye"	3
-"8"	"MA_0000275"	"lens"	4
+"6"	"MA_0000120"	"pancreas"	29
+"7"	"MA_0000261"	"eye"	4
+"8"	"MA_0000275"	"lens"	5
 "9"	"MA_0000338"	"duodenum"	49
 "10"	"MA_0000134"	"bone marrow"	666
 "11"	"MA_0000074"	"heart left atrium"	35
@@ -20,7 +20,7 @@
 "19"	"MA_0001704"	"left ovary"	48
 "20"	"MA_0001705"	"right ovary"	47
 "21"	"MA_0000170"	"forebrain"	8
-"22"	"MA_0000216"	"spinal cord"	89
+"22"	"MA_0000216"	"spinal cord"	9
 "23"	"MA_0000354"	"bile duct"	13
 "24"	"MA_0000475"	"arch of aorta"	15
 "25"	"MA_0000425"	"left lung"	21
@@ -31,27 +31,16 @@
 "30"	"MA_0000389"	"uterus"	36	
 "31"	"MA_0000380"	"urinary bladder"	37
 "32"	"MA_0000378"	"ureter"	39
-"33"	"MA:0000337"	"small intestine"	51
-"34"	"MA_0000333"	"large intestine"	52
+"33"	"MA_0000339"	"ileum"	52
+"34"	"MA_0000340"	"jejunum"	51
 "35"	"MA_0000335"	"colon"	53
 "36"	"MA_0000385"	"oviduct"	55
 "37"	"MA_0000336"	"rectum"	57
-"38"	"MA:0001746"	"left testis"	170
+"38"	"MA_0000411"	"testis"	58
 "39"	"MA_0001459"	"bone"	44	
 "40"	"MA_0000057"	"brown adipose tissue"	666
 "41"	"MA_0000129"	"thyroid gland"	59
 "42"	"MA_0000151"	"skin"	666
 "43"	"MA_0003148"	"skeletal muscle"	61
 "44"	"MA_0000334"	"cecum"	60
-"45"	"MA:0000397"	"epididymis"	223
-"46"	"MA:0000413"	"vas deferens"	224
-"47"	"MA:0000404"	"prostate gland"	226
-"48"	"MA:0000379"	"urethra"	227
-"49"	"MA:0000410"	"seminal vesicle"	228
-"50"	"MA:0000346"	"salivary gland"	222
-"51"	"MA:0001747"	"right testis"	171
-"52"	"MA:0000194"	"main olfactory bulb"	24
-"53"	"MA:0000142"	"thymus"	64
-"54"	"MA:0000116"	"adrenal gland"	66
-"55"	"MA:0000169"	"brainstem"	88
-"56"	"MA:0000738"	"popliteal lymph node"	91
+"45"	"MA_0000205"	"myelencephalon"	30
