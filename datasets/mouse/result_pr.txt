@@ -1,1 +1,50 @@
-manual preprocessing
+MA_0000358 (liver) is found
+=>MA_0000358(liver) ONLY applied to MA_0000358(liver)
+MA_0000141 (spleen) is found
+=>MA_0000141(spleen) ONLY applied to MA_0000141(spleen)
+MA_0000120 (pancreas) is found
+=>MA_0000120(pancreas) ONLY applied to MA_0000120(pancreas)
+MA_0001683 (right kidney) is found
+=>MA_0001683(right kidney) ONLY applied to MA_0001683(right kidney)
+MA_0001655 (left kidney) is found
+=>MA_0001655(left kidney) ONLY applied to MA_0001655(left kidney)
+MA_0000425 (left lung) is found
+=>MA_0000425(left lung) ONLY applied to MA_0000425(left lung)
+MA_0000426 (right lung) is found
+=>MA_0000426(right lung) ONLY applied to MA_0000426(right lung)
+MA_0001704 (left ovary) is found
+=>MA_0001704(left ovary) ONLY applied to MA_0001704(left ovary)
+MA_0001705 (right ovary) is found
+=>MA_0001705(right ovary) ONLY applied to MA_0001705(right ovary)
+MA_0000129 (thyroid gland) is found
+=>MA_0000129(thyroid gland) ONLY applied to MA_0000129(thyroid gland)
+MA_0000261 (eye) is found
+=>MA_0000261(eye) ONLY applied to MA_0000261(eye)
+=>MA_0000261(eye) applied to MA_0000275(lens)
+MA_0000275 (lens) is found
+=>MA_0000275(lens) ONLY applied to MA_0000275(lens)
+MA_0000198 (cerebellum) is found
+=>MA_0000198(cerebellum) ONLY applied to MA_0000198(cerebellum)
+MA_0000170 (forebrain) is found
+=>MA_0000170(forebrain) ONLY applied to MA_0000170(forebrain)
+for ID: MA_0000205 (myelencephalon) no corresponding term found for this ID
+MA_0001459 (bone) is found
+=>MA_0001459(bone) applied to MA_0000134(bone marrow)
+=>MA_0001459(bone) ONLY applied to MA_0001459(bone)
+MA_0000134 (bone marrow) is found
+=>MA_0000134(bone marrow) ONLY applied to MA_0000134(bone marrow)
+MA_0003148 (skeletal muscle) is found
+=>MA_0003148(skeletal muscle) applied to MA_0001904(diaphragm)
+=>MA_0003148(skeletal muscle) ONLY applied to MA_0003148(skeletal muscle)
+MA_0000151 (skin) is found
+=>MA_0000151(skin) ONLY applied to MA_0000151(skin)
+MA_0000074 (heart left atrium) is found
+=>MA_0000074(heart left atrium) ONLY applied to MA_0000074(heart left atrium)
+MA_0000075 (heart right atrium) is found
+=>MA_0000075(heart right atrium) ONLY applied to MA_0000075(heart right atrium)
+MA_0000092 (heart left ventricle) is found
+=>MA_0000092(heart left ventricle) ONLY applied to MA_0000092(heart left ventricle)
+MA_0000093 (heart right ventricle) is found
+=>MA_0000093(heart right ventricle) ONLY applied to MA_0000093(heart right ventricle)
+MA_0000057 (brown adipose tissue) is found
+=>MA_0000057(brown adipose tissue) ONLY applied to MA_0000057(brown adipose tissue)

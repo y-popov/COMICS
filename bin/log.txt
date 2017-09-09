@@ -1,1 +1,1 @@
-../datasets/carp cypCar_00038482.RA 00D8D8 NONE D801D8 10 unique LOG ../sessions/mysession/ no false yes
+pdfunite ../sessions/mysession/P16858.pdf ../sessions/mysession/Q921I1.pdf ../sessions/mysession/P07724.pdf ../sessions/mysession/Q9D0F9.pdf ../sessions/mysession/Q03265.pdf ../sessions/mysession/P06151.pdf ../sessions/mysession/P02088.pdf ../sessions/mysession/P05064.pdf ../sessions/mysession/P01942.pdf ../sessions/mysession/P52480.pdf  ../sessions/mysession/output.pdf

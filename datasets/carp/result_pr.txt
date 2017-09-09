@@ -1,66 +1,72 @@
-----  ZFA_0000622
-ZFA_0000622 found among available
-----  ZFA_0000035
-ZFA_0000035 found among available
-----  ZFA_0001161
-ZFA_0001161 found among available
-----  ZFA_0001184
-ZFA_0001184 found among available
-----  ZFA_0001173
-ZFA_0001173 found among available
-----  ZFA_0001162
-ZFA_0001162 found among available
-----  ZFA_0001604
-ZFA_0001604 found among available
-----  ZFA_0001605
-ZFA_0001605 found among available
-----  ZFA_0005145
-ZFA_0005145 found among available
-----  ZFA_0000669
-ZFA_0000669 found among available
-----  ZFA_0001606
-ZFA_0001606 found among available
-----  ZFA_0001607
-ZFA_0001607 found among available
-----  ZFA_0001078
-ZFA_0001078 found among available
-----  ZFA_0001293
-ZFA_0001293 found among available
-----  ZFA_0000368
-ZFA_0000368 found among available
-----  ZFA_0000598
-ZFA_0000598 found among available
-----  ZFA_0000123
-ZFA_0000123 found among available
-----  ZFA_0000436
-ZFA_0000436 found among available
-----  ZFA_0009309
-ZFA_0009309 found among available
-----  ZFA_0000208
-ZFA_0000208 found among available
-----  ZFA_0000112
-ZFA_0000112 gut gave its value to the child/part mid intestine
-ZFA_0000112 gut gave its value to the child/part posterior intestine
-ZFA_0000112 gut gave its value to the child/part intestinal bulb
-----  ZFA_0000079
-ZFA_0000079 found among available
-----  ZFA_0000445
-ZFA_0000445 found among available
-----  ZFA_0000188
-ZFA_0000188 found among available
-----  ZFA_0000297
-ZFA_0000297 found among available
-----  ZFA_0000545
-ZFA_0000545 found among available
-----  ZFA_0000118
-ZFA_0000118 found among available
-----  ZFA_0000109
-ZFA_0000109 found among available
-----  ZFA_0000029
-ZFA_0000029 found among available
-----  ZFA_0000471
-ZFA_0000471 found among available
-----  ZFA_0000009
-ZFA_0000009 found among available
-----  ZFA_0000173
-ZFA_0000173 found among available
+ZFA_0000622 (barbel) is found
+=>ZFA_0000622(barbel) applied to ZFA_0000368(integument)
+ZFA_0000035 (lens) is found
+=>ZFA_0000035(lens) applied to ZFA_0000107(eye)
+ZFA_0001161 (pectoral fin) is found
+=>ZFA_0001161(pectoral fin) ONLY applied to ZFA_0001161(pectoral fin)
+ZFA_0001184 (pelvic fin) is found
+=>ZFA_0001184(pelvic fin) ONLY applied to ZFA_0001184(pelvic fin)
+ZFA_0001173 (dorsal fin) is found
+=>ZFA_0001173(dorsal fin) ONLY applied to ZFA_0001173(dorsal fin)
+ZFA_0001162 (anal fin) is found
+=>ZFA_0001162(anal fin) ONLY applied to ZFA_0001162(anal fin)
+ZFA_0001604 (caudal fin upper lobe) is found
+=>ZFA_0001604(caudal fin upper lobe) applied to ZFA_0001058(caudal fin)
+ZFA_0001605 (caudal fin lower lobe) is found
+=>ZFA_0001605(caudal fin lower lobe) applied to ZFA_0001058(caudal fin)
+non-uniqueID
+ZFA_0005145 (muscle) is found
+=>ZFA_0005145(muscle) applied to ZFA_0005277(skeletal muscle)
+ZFA_0000669 (head kidney) is found
+=>ZFA_0000669(head kidney) ONLY applied to ZFA_0000669(head kidney)
+ZFA_0001606 (pharyngeal arch 3) is found
+=>ZFA_0001606(pharyngeal arch 3) ONLY applied to ZFA_0001606(pharyngeal arch 3)
+ZFA_0001607 (pharyngeal arch 4) is found
+=>ZFA_0001607(pharyngeal arch 4) ONLY applied to ZFA_0001607(pharyngeal arch 4)
+for ID: ZFA_0001078 (thymus) no corresponding term found for this ID
+ZFA_0001293 (posterior kidney) is found
+=>ZFA_0001293(posterior kidney) ONLY applied to ZFA_0001293(posterior kidney)
+ZFA_0000368 (integument) is found
+=>ZFA_0000368(integument) ONLY applied to ZFA_0000368(integument)
+ZFA_0000598 (testis) is found
+=>ZFA_0000598(testis) ONLY applied to ZFA_0000598(testis)
+ZFA_0000123 (liver) is found
+=>ZFA_0000123(liver) ONLY applied to ZFA_0000123(liver)
+ZFA_0000436 (spleen) is found
+=>ZFA_0000436(spleen) ONLY applied to ZFA_0000436(spleen)
+ZFA_0009309 (leukocyte) is found
+=>ZFA_0009309(leukocyte) applied to ZFA_0009265(monocyte)
+=>ZFA_0009309(leukocyte) applied to ZFA_0009049(mature neutrophil)
+=>ZFA_0009309(leukocyte) applied to ZFA_0009250(lymphocyte)
+ZFA_0000208 (gall bladder) is found
+=>ZFA_0000208(gall bladder) ONLY applied to ZFA_0000208(gall bladder)
+ZFA_0001076 (intestinal bulb) is found
+=>ZFA_0001076(intestinal bulb) ONLY applied to ZFA_0001076(intestinal bulb)
+ZFA_0001323 (mid intestine) is found
+=>ZFA_0001323(mid intestine) ONLY applied to ZFA_0001323(mid intestine)
+ZFA_0000706 (posterior intestine) is found
+=>ZFA_0000706(posterior intestine) ONLY applied to ZFA_0000706(posterior intestine)
+ZFA_0000079 (telencephalon) is found
+=>ZFA_0000079(telencephalon) applied to ZFA_0000402(olfactory bulb)
+ZFA_0000445 (optic tectum) is found
+=>ZFA_0000445(optic tectum) ONLY applied to ZFA_0000445(optic tectum)
+ZFA_0000188 (corpus cerebelli) is found
+=>ZFA_0000188(corpus cerebelli) ONLY applied to ZFA_0000188(corpus cerebelli)
+ZFA_0000297 (vagal lobe) is found
+=>ZFA_0000297(vagal lobe) ONLY applied to ZFA_0000297(vagal lobe)
+ZFA_0000545 (medulla oblongata) is found
+=>ZFA_0000545(medulla oblongata) applied to ZFA_0000636(cerebellar crest)
+=>ZFA_0000545(medulla oblongata) ONLY applied to ZFA_0000545(medulla oblongata)
+ZFA_0000118 (hypophysis) is found
+=>ZFA_0000118(hypophysis) ONLY applied to ZFA_0000118(hypophysis)
+ZFA_0000109 forebrain is too general and cannot be applied to the picture
+ZFA_0000029 (hindbrain) is found
+=>ZFA_0000029(hindbrain) applied to ZFA_0000636(cerebellar crest)
+non-uniqueID
+=>ZFA_0000029(hindbrain) applied to ZFA_0000212(granular eminence)
+ZFA_0000471 (atrium) is found
+=>ZFA_0000471(atrium) ONLY applied to ZFA_0000471(atrium)
+ZFA_0000009 (cardiac ventricle) is found
+=>ZFA_0000009(cardiac ventricle) ONLY applied to ZFA_0000009(cardiac ventricle)
+ZFA_0000173 (bulbus arteriosus) is found
+=>ZFA_0000173(bulbus arteriosus) ONLY applied to ZFA_0000173(bulbus arteriosus)

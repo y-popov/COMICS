@@ -239,11 +239,16 @@ a {
 			//puts derived information to info-table
 			function writeInfo(){
 				string = "<div class='link-div'><div class='link-id'>"+ID+"</div><div class='link-gene'>"+gene_name+"</div><div class='link-names'>"+name+"</div>";
-				if (uniprotID)
+				if (info_tab_header.indexOf("class='uniprot'") !== -1)
+				//(uniprotID)
 					string += "<div class='link-text uniprot'><a target='_blank' href='http://www.uniprot.org/uniprot/"+uniprotID+"'>"+uniprotID+"</a></div>";
-				if (zfinID)
-					string += "<div class='link-text zfin'><a class='link-text' target='_blank' href='http://zfin.org/"+zfinID+"'>"+zfinID+"</a></div>";
-				if (entrezID)
+				if (info_tab_header.indexOf("class='zfin'") !== -1)
+					if (zfinID)
+						string += "<div class='link-text zfin'><a class='link-text' target='_blank' href='http://zfin.org/"+zfinID+"'>"+zfinID+"</a></div>";
+					else
+						string += "<div class='link-text zfin'></div>";
+				if (info_tab_header.indexOf("class='entrez'") !== -1)
+				//(entrezID)
 					string += "<div class='link-text entrez'><a target='_blank' href='http://www.ncbi.nlm.nih.gov/gene/"+entrezID+"'>"+entrezID+"</a></div>";
 				$(dom).append(string+"</div>");
 			};

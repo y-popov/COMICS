@@ -42,9 +42,9 @@ if(species=='mouse'){
   names(smart) = strsplit(res[1], " ")[[1]]
   ontol=getOntology('./ontol/ma.obo')
   
-  gender<-both
-  sort_brain<-small
-  zfa_zfs<-zfa
+  gender<-'both'
+  sort_brain<-'smallbrain'
+  zfs_zfa<-'zfa'
   
 }else if(species=='ZF'|species=='carp'){
   

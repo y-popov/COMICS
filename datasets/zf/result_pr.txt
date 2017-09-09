@@ -1,42 +1,58 @@
-----  ZFA_0005145
-ZFA_0005145 found among available
-----  ZFA_0000208
-ZFA_0000208 found among available
-----  ZFA_0000108
-ZFA_0000108 fin gave its value to the child/part caudal fin
-ZFA_0000108 fin gave its value to the child/part dorsal fin
-ZFA_0000108 fin gave its value to the child/part pelvic fin
-ZFA_0000108 fin gave its value to the child/part pectoral fin
-ZFA_0000108 fin gave its value to the child/part anal fin
-----  ZFA_0000107
-ZFA_0000107 found among available
-----  ZFA_0001338
-ZFA_0001338 intestine gave its value to the child/part posterior intestine
-ZFA_0001338 intestine gave its value to the child/part intestinal bulb
-ZFA_0001338 intestine gave its value to the child/part mid intestine
-----  ZFA_0000123
-ZFA_0000123 found among available
-----  ZFA_0000008
-ZFA_0000008 found among available
-----  ZFA_0000354
-ZFA_0000354 gill is not found
-----  ZFA_0000114
-ZFA_0000114 heart gave its value to the child/part bulbus arteriosus
-ZFA_0000114 heart gave its value to the child/part atrium
-ZFA_0000114 heart gave its value to the child/part sinus venosus
-ZFA_0000114 heart gave its value to the child/part cardiac ventricle
-----  ZFA_0000368
-ZFA_0000368 found among available
-----  ZFA_0000436
-ZFA_0000436 found among available
-----  ZFA_0000076
-ZFA_0000076 swim bladder gave its value to the child/part ductus communicans
-ZFA_0000076 swim bladder gave its value to the child/part anterior chamber swim bladder
-ZFA_0000076 swim bladder gave its value to the child/part posterior chamber swim bladder
-----  ZFA_0000529
-ZFA_0000529 kidney gave its value to the child/part head kidney
-ZFA_0000529 kidney gave its value to the child/part posterior kidney
-----  ZFA_0000598
-ZFA_0000598 found among available
-----  ZFA_0000403
-ZFA_0000403 found among available
+ZFA_0000208 (gall bladder) is found
+=>ZFA_0000208(gall bladder) ONLY applied to ZFA_0000208(gall bladder)
+ZFA_0000108 (fin) is found
+=>ZFA_0000108(fin) applied to ZFA_0001161(pectoral fin)
+=>ZFA_0000108(fin) applied to ZFA_0001184(pelvic fin)
+=>ZFA_0000108(fin) applied to ZFA_0001173(dorsal fin)
+=>ZFA_0000108(fin) applied to ZFA_0001162(anal fin)
+=>ZFA_0000108(fin) applied to ZFA_0001058(caudal fin)
+ZFA_0000107 (eye) is found
+=>ZFA_0000107(eye) ONLY applied to ZFA_0000107(eye)
+ZFA_0001338 (intestine) is found
+=>ZFA_0001338(intestine) applied to ZFA_0001076(intestinal bulb)
+=>ZFA_0001338(intestine) applied to ZFA_0001323(mid intestine)
+=>ZFA_0001338(intestine) applied to ZFA_0000706(posterior intestine)
+ZFA_0000123 (liver) is found
+=>ZFA_0000123(liver) ONLY applied to ZFA_0000123(liver)
+ZFA_0000008 (brain) is found
+=>ZFA_0000008(brain) applied to ZFA_0000636(cerebellar crest)
+=>ZFA_0000008(brain) applied to ZFA_0000079(telencephalon)
+=>ZFA_0000008(brain) applied to ZFA_0000445(optic tectum)
+=>ZFA_0000008(brain) applied to ZFA_0000188(corpus cerebelli)
+=>ZFA_0000008(brain) applied to ZFA_0000297(vagal lobe)
+=>ZFA_0000008(brain) applied to ZFA_0000545(medulla oblongata)
+=>ZFA_0000008(brain) applied to ZFA_0000118(hypophysis)
+=>ZFA_0000008(brain) applied to ZFA_0000402(olfactory bulb)
+=>ZFA_0000008(brain) applied to ZFA_0000406(parvocellular superficial pretectal nucleus)
+=>ZFA_0000008(brain) applied to ZFA_0000435(cranial nerve II)
+=>ZFA_0000008(brain) applied to ZFA_0000212(granular eminence)
+=>ZFA_0000008(brain) applied to ZFA_0001662(preglomerular nucleus)
+=>ZFA_0000008(brain) applied to ZFA_0000294(torus lateralis)
+=>ZFA_0000008(brain) applied to ZFA_0000634(caudal hypothalamic zone)
+ZFA_0000354 (gill) is found
+=>ZFA_0000354(gill) applied to ZFA_0001606(pharyngeal arch 3)
+=>ZFA_0000354(gill) applied to ZFA_0001607(pharyngeal arch 4)
+=>ZFA_0000354(gill) applied to ZFA_0001608(pharyngeal arch 5)
+=>ZFA_0000354(gill) applied to ZFA_0001609(pharyngeal arch 6)
+ZFA_0000114 (heart) is found
+=>ZFA_0000114(heart) applied to ZFA_0000471(atrium)
+=>ZFA_0000114(heart) applied to ZFA_0000009(cardiac ventricle)
+=>ZFA_0000114(heart) applied to ZFA_0000173(bulbus arteriosus)
+=>ZFA_0000114(heart) applied to ZFA_0000154(sinus venosus)
+ZFA_0000368 (integument) is found
+=>ZFA_0000368(integument) ONLY applied to ZFA_0000368(integument)
+ZFA_0000436 (spleen) is found
+=>ZFA_0000436(spleen) ONLY applied to ZFA_0000436(spleen)
+ZFA_0000076 (swim bladder) is found
+=>ZFA_0000076(swim bladder) applied to ZFA_0001277(anterior chamber swim bladder)
+=>ZFA_0000076(swim bladder) applied to ZFA_0001278(posterior chamber swim bladder)
+=>ZFA_0000076(swim bladder) applied to ZFA_0001437(ductus communicans)
+ZFA_0000529 (kidney) is found
+=>ZFA_0000529(kidney) applied to ZFA_0000669(head kidney)
+=>ZFA_0000529(kidney) applied to ZFA_0001293(posterior kidney)
+ZFA_0000598 (testis) is found
+=>ZFA_0000598(testis) ONLY applied to ZFA_0000598(testis)
+ZFA_0000403 (ovary) is found
+=>ZFA_0000403(ovary) ONLY applied to ZFA_0000403(ovary)
+ZFA_0005145 (muscle) is found
+=>ZFA_0005145(muscle) applied to ZFA_0005277(skeletal muscle)
