@@ -180,8 +180,10 @@ a {
 							}
 						};
 						buff = data.getElementsByTagName("gene")[0];
-						buff = buff.getElementsByTagName("name")[0].firstChild;
-						gene_name = buff.nodeValue;
+						if (buff){
+							buff = buff.getElementsByTagName("name")[0].firstChild;
+							gene_name = buff.nodeValue;
+						} else gene_name = "NA"
 						
 					},
 					complete: function(){
@@ -248,8 +250,10 @@ a {
 					else
 						string += "<div class='link-text zfin'></div>";
 				if (info_tab_header.indexOf("class='entrez'") !== -1)
-				//(entrezID)
-					string += "<div class='link-text entrez'><a target='_blank' href='http://www.ncbi.nlm.nih.gov/gene/"+entrezID+"'>"+entrezID+"</a></div>";
+					if (entrezID)
+						string += "<div class='link-text entrez'><a target='_blank' href='http://www.ncbi.nlm.nih.gov/gene/"+entrezID+"'>"+entrezID+"</a></div>";
+					else 
+						"<div class='link-text entrez'></div>";
 				$(dom).append(string+"</div>");
 			};
 		
